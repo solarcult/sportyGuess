@@ -89,14 +89,6 @@ for element in elements:
     print(element.find_elements_by_css_selector("td")[6].text)
     print(element.find_elements_by_css_selector("td")[7].text)
     print(element.find_elements_by_css_selector("td")[8].text)
-        
-    
-# print(listbox)
-# option = listbox.find_element('data-value', 'Home')
-# option = listbox.find_element_by_link_text('Home')
-# listbox.find_element_by_xpath("//option[@data-value='Home']")
-# print(option)
-# option.is_selected()
 
 print('all Summary done')
 
