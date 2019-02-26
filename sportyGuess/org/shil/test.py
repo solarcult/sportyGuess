@@ -1,7 +1,11 @@
 import mysql.connector
-from org.shil import dbdata
 from org.shil.db import team_statistics
 
+
+for i in range(0,2):
+    print(i)
+
+"""
 cnx = mysql.connector.connect(user='shil',password='sl134120',host='127.0.0.1',database = 'sporty')
 
 x = cnx.cursor()
@@ -35,3 +39,4 @@ setattr(ok, team_statistics.team_id, 'bsdteam')
 ok.printself()
 
 print(getattr(ok, team_statistics.team_id))
+"""
