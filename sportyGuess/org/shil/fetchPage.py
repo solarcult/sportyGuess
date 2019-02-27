@@ -13,16 +13,16 @@ from org.shil.db.team_statistics import view_Home, view_Away, view_Overall
 
 sleepMin = 3;
 sleepMax = 8;
-url = "https://www.whoscored.com/Teams/65"
 
 browser = webdriver.Chrome()
-browser.get(url);
-
-time.sleep(random.randrange(sleepMin,sleepMax))
 
 '''
 
+url = "https://www.whoscored.com/Teams/65"
+browser.get(url);
+
 print("Team Statistics")
+time.sleep(random.randrange(sleepMin,sleepMax))
 
 print("Summary - Overall")
 ttss = browser.find_element_by_id('top-team-stats-summary')
@@ -232,41 +232,10 @@ for element in elements:
     print(element.find_elements_by_css_selector("td")[4].text)
     print(element.find_elements_by_css_selector("td")[5].text)
     print(element.find_elements_by_css_selector("td")[6].text)
+'''
 
-
-print('Team Fixtures')
-
-fixtures_but = browser.find_element_by_id('sub-navigation').find_element_by_link_text("Fixtures")
-fixtures_but.click()
-
-time.sleep(random.randrange(sleepMin,sleepMax))
-
-fixtures = browser.find_element_by_id('team-fixtures')
-elements = fixtures.find_elements_by_tag_name("tr")
-for element in elements:
-    print(element.find_elements_by_css_selector("td")[0].text)
-    print(element.find_elements_by_css_selector("td")[1].text)
-    print(element.find_elements_by_css_selector("td")[2].text)
-    sed = element.find_elements_by_css_selector("td")[2]
-    at = sed.find_element_by_tag_name('a')
-    print(at.get_attribute('title'))
-    print(at.get_property('href'))
-    print(element.find_elements_by_css_selector("td")[3].text)
-    print(element.find_elements_by_css_selector("td")[4].text)
-#     print(element.find_elements_by_css_selector("td")[5].text)
-    sed = element.find_elements_by_css_selector("td")[5]
-    at = sed.find_element_by_tag_name('a')
-    print(at.text)
-    print(at.get_property('href'))
-    print(element.find_elements_by_css_selector("td")[6].text)
-#     print(element.find_elements_by_css_selector("td")[7].text)
-    sed = element.find_elements_by_css_selector("td")[7]
-    at = sed.find_element_by_tag_name('a')
-    print(at.text)
-    print(at.get_property('href'))
-    print(element.find_elements_by_css_selector("td")[8].text)
     
-
+'''
 print('Team Squad')
 
 tss = browser.find_element_by_id('team-squad-stats')
@@ -361,6 +330,110 @@ for i in range(0,length):
     option = tss.find_element_by_id('tournamentOptions')
     ass = option.find_elements_by_tag_name('a')
 
+
+    
+print('Team Fixtures')
+
+# https://www.whoscored.com/Teams/1211/Fixtures
+
+fixtures_but = browser.find_element_by_id('sub-navigation').find_element_by_link_text("Fixtures")
+fixtures_but.click()
+
+time.sleep(random.randrange(sleepMin,sleepMax))
+
+fixtures = browser.find_element_by_id('team-fixtures')
+elements = fixtures.find_elements_by_tag_name("tr")
+for element in elements:
+    print(element.get_attribute('data-id'))
+    print(element.find_elements_by_css_selector("td")[0].text)
+    print(element.find_elements_by_css_selector("td")[1].text)
+    print(element.find_elements_by_css_selector("td")[2].text)
+    sed = element.find_elements_by_css_selector("td")[2]
+    at = sed.find_element_by_tag_name('a')
+    print(at.get_attribute('title'))
+    print(at.get_property('href'))
+    print(element.find_elements_by_css_selector("td")[3].text)
+    print(element.find_elements_by_css_selector("td")[4].text)
+#     print(element.find_elements_by_css_selector("td")[5].text)
+    sed = element.find_elements_by_css_selector("td")[5]
+    at = sed.find_element_by_tag_name('a')
+    print(at.text)
+    print(at.get_property('href'))
+    print(element.find_elements_by_css_selector("td")[6].text)
+#     print(element.find_elements_by_css_selector("td")[7].text)
+    sed = element.find_elements_by_css_selector("td")[7]
+    at = sed.find_element_by_tag_name('a')
+    print(at.text)
+    print(at.get_property('href'))
+    matchlink = element.find_elements_by_css_selector("td")[8]
+    print(matchlink.text)
+    if(len(matchlink.text) > 6):
+        print(matchlink.get_property('href'))
+
+
+
+url = 'https://www.whoscored.com/Matches/1294545/Preview'
+browser.get(url)
+
+time.sleep(random.randrange(sleepMin,sleepMax))
+
+header = browser.find_element_by_class_name('pitch-formation-header')
+homet = header.find_element_by_class_name('home')
+homea = homet.find_element_by_tag_name('a')
+print(homea.text)
+print(homea.get_attribute('href'))
+
+awayt = header.find_element_by_class_name('away')
+awaya = awayt.find_element_by_tag_name('a')
+print(awaya.text)
+print(awaya.get_attribute('href'))
+
+pitch = browser.find_element_by_class_name('pitch')
+phome = pitch.find_element_by_class_name('home')
+uls = phome.find_elements_by_tag_name('ul')
+for ul in uls:
+    print(ul.get_attribute("data-playerid"))
+    print(ul.get_attribute("title"))
+    print(ul.find_elements_by_tag_name('li')[1].text)
+    
+
+paway = pitch.find_element_by_class_name('away')
+uls = paway.find_elements_by_tag_name('ul')
+for ul in uls:
+    print(ul.get_attribute("data-playerid"))
+    print(ul.get_attribute("title"))
+    print(ul.find_elements_by_tag_name('li')[1].text)
+
+
+url = 'https://www.whoscored.com/Players/39722/Fixtures'
+browser.get(url)
+time.sleep(random.randrange(sleepMin,sleepMax))
+
+body = browser.find_element_by_tag_name('tbody')
+trs = body.find_elements_by_tag_name('tr')
+for tr in trs:
+    tds = tr.find_elements_by_tag_name('td')
+    print(tds[0].find_element_by_tag_name('a').get_attribute('title'))
+    print(tds[1].text)
+    print(tds[2].find_element_by_tag_name('a').text)
+    print(tds[3].find_element_by_tag_name('a').text)
+    print(tds[4].find_element_by_tag_name('a').text)
+    print(tds[5].text) #noneed
+    print(tds[6].text) #noneed
+    print(tds[7].text) #min
+    print(tds[8].text) #score
+
 '''
+
+url = 'https://www.whoscored.com/'
+
+browser.get(url)
+
+uls = browser.find_element_by_id('popular-tournaments-list')
+lis = uls.find_elements_by_tag_name('li')
+for li in lis :
+    print(li.find_element_by_tag_name('a').get_attribute('href'))
+    print(li.text)
+
 
 browser.quit()

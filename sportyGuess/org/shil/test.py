@@ -2,7 +2,7 @@ import mysql.connector
 from org.shil.db import team_statistics
 
 
-for i in range(0,2):
+for i in range(0,8):
     print(i)
 
 """
