@@ -1,7 +1,7 @@
 '''
-Created on 2019Feb24
+Created on 2019-Feb-24
 
-@author: yuanshun.sl
+@author: shil
 '''
 from selenium import webdriver
 from org.shil.db import team_statistics
@@ -405,6 +405,7 @@ for ul in uls:
     print(ul.find_elements_by_tag_name('li')[1].text)
 
 
+
 url = 'https://www.whoscored.com/Players/39722/Fixtures'
 browser.get(url)
 time.sleep(random.randrange(sleepMin,sleepMax))
@@ -423,11 +424,13 @@ for tr in trs:
     print(tds[7].text) #min
     print(tds[8].text) #score
 
-'''
+
 
 url = 'https://www.whoscored.com/'
 
 browser.get(url)
+
+time.sleep(random.randrange(sleepMin,sleepMax))
 
 uls = browser.find_element_by_id('popular-tournaments-list')
 lis = uls.find_elements_by_tag_name('li')
@@ -435,5 +438,32 @@ for li in lis :
     print(li.find_element_by_tag_name('a').get_attribute('href'))
     print(li.text)
 
+'''
+    
+url = 'https://www.whoscored.com/Regions/182/Tournaments/77/Russia-Premier-League'
 
+browser.get(url)
+time.sleep(random.randrange(sleepMin,sleepMax))
+
+# tbody = browser.find_element_by_tag_name('tbody')
+tbody = browser.find_element_by_class_name('standings')
+trs = tbody.find_elements_by_tag_name('tr')
+for tr in trs :
+    print(tr.get_attribute('data-team-id'))
+    tds = tr.find_elements_by_tag_name('td')
+    print(tds[0].text)
+    a = tds[1].find_element_by_tag_name('a')
+    print(a.text)
+    print(a.get_attribute('href'))
+    print(tds[2].text)
+    print(tds[3].text)
+    print(tds[4].text)
+    print(tds[5].text)
+    print(tds[6].text)
+    print(tds[7].text)
+    print(tds[8].text)
+    print(tds[9].text)
+    
+
+    
 browser.quit()

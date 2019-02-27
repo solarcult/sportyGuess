@@ -95,6 +95,7 @@ CREATE TABLE `tournament_teams` (
   `date` date NOT NULL,
   `no` int(11) NOT NULL,
   `team_name` varchar(45) NOT NULL,
+  `team_link` varchar(255) NOT NULL,
   `team_id` int(11) NOT NULL,
   `played` int(11) NOT NULL,
   `win` int(11) NOT NULL,
