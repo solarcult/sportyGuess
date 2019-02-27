@@ -5,7 +5,12 @@ from org.shil import team_page
 sleepMin = 5;
 sleepMax = 10;
 
+# https://www.whoscored.com/Regions/206/Tournaments/4/Spain-La-Liga
+
 def process_tournament_page(browser,url):
+	
+	print('process_tournament_page : '+url)
+	
 	browser.get(url)
 	time.sleep(random.randrange(sleepMin,sleepMax))
 	
