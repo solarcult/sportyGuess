@@ -9,15 +9,13 @@ from selenium import webdriver
 import time
 import random
 from org.shil import tournament_page
-
-sleepMin = 5;
-sleepMax = 10;
+from org.shil import utils
 
 browser = webdriver.Chrome()
 
 url = 'https://www.whoscored.com/'
 browser.get(url)
-time.sleep(random.randrange(sleepMin,sleepMax))
+time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 
 touraments = {}
 

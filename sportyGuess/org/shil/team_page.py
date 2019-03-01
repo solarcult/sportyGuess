@@ -2,9 +2,8 @@ import time
 import random
 from org.shil.db import team_statistics
 from org.shil import team_fixtures_page
-
-sleepMin = 5;
-sleepMax = 10;
+from org.shil import utils
+from selenium import webdriver
 
 # https://www.whoscored.com/Teams/65/Show/Spain-Barcelona
 
@@ -13,7 +12,7 @@ def process_team_page(browser,url):
 	print('process_team_page : '+url)
 	
 	browser.get(url);
-	time.sleep(random.randrange(sleepMin,sleepMax))
+	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	print("Team Statistics")
 	print("Summary - Overall")
 	ttss = browser.find_element_by_id('top-team-stats-summary')
@@ -41,7 +40,7 @@ def process_team_page(browser,url):
 	        a.click()
 	        break
 
-	time.sleep(random.randrange(sleepMin,sleepMax))
+	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	
 	ttss = browser.find_element_by_id('top-team-stats-summary')
 	trs = ttss.find_element_by_id("top-team-stats-summary-content")
@@ -67,7 +66,7 @@ def process_team_page(browser,url):
 	        a.click()
 	        break
 	
-	time.sleep(random.randrange(sleepMin,sleepMax))
+	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	
 	ttss = browser.find_element_by_id('top-team-stats-summary')
 	trs = ttss.find_element_by_id("top-team-stats-summary-content")
@@ -89,7 +88,7 @@ def process_team_page(browser,url):
 	defensive = browser.find_element_by_link_text(team_statistics.type_Defensive);
 	defensive.click()
 	
-	time.sleep(random.randrange(sleepMin,sleepMax))
+	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	
 	ttss = browser.find_element_by_id('top-team-stats-defensive')
 	trs = ttss.find_element_by_id("top-team-stats-summary-content")
@@ -115,7 +114,7 @@ def process_team_page(browser,url):
 	        a.click()
 	        break
 	    
-	time.sleep(random.randrange(sleepMin,sleepMax))
+	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	
 	ttss = browser.find_element_by_id('top-team-stats-defensive')
 	trs = ttss.find_element_by_id("top-team-stats-summary-content")
@@ -140,7 +139,7 @@ def process_team_page(browser,url):
 	        a.click()
 	        break
 	
-	time.sleep(random.randrange(sleepMin,sleepMax))
+	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	    
 	ttss = browser.find_element_by_id('top-team-stats-defensive')
 	trs = ttss.find_element_by_id("top-team-stats-summary-content")
@@ -161,7 +160,7 @@ def process_team_page(browser,url):
 	offensive = browser.find_element_by_link_text(team_statistics.type_Offensive);
 	offensive.click()
 	
-	time.sleep(random.randrange(sleepMin,sleepMax))
+	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	
 	ttss = browser.find_element_by_id('top-team-stats-offensive')
 	trs = ttss.find_element_by_id("top-team-stats-summary-content")
@@ -186,7 +185,7 @@ def process_team_page(browser,url):
 	        a.click()
 	        break
 	    
-	time.sleep(random.randrange(sleepMin,sleepMax))
+	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	
 	ttss = browser.find_element_by_id('top-team-stats-offensive')
 	trs = ttss.find_element_by_id("top-team-stats-summary-content")
@@ -210,7 +209,7 @@ def process_team_page(browser,url):
 	        a.click()
 	        break
 	
-	time.sleep(random.randrange(sleepMin,sleepMax))
+	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	    
 	ttss = browser.find_element_by_id('top-team-stats-offensive')
 	trs = ttss.find_element_by_id("top-team-stats-summary-content")
@@ -238,10 +237,10 @@ def process_team_page(browser,url):
 	    a = ass[i]
 	    print(a.text + ' Overall')
 	    a.click()
-	    time.sleep(random.randrange(sleepMin,sleepMax))
+	    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	    o = tss.find_element_by_link_text(team_statistics.view_Overall)
 	    o.click()
-	    time.sleep(random.randrange(sleepMin,sleepMax))
+	    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	    tss = browser.find_element_by_id('team-squad-stats')
 	    ptsb = tss.find_element_by_id('player-table-statistics-body')
 	    trs = ptsb.find_elements_by_tag_name('tr')
@@ -267,7 +266,7 @@ def process_team_page(browser,url):
 	    print('this is Home')
 	    h = tss.find_element_by_link_text(team_statistics.view_Home)
 	    h.click()
-	    time.sleep(random.randrange(sleepMin,sleepMax))
+	    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	    tss = browser.find_element_by_id('team-squad-stats')
 	    ptsb = tss.find_element_by_id('player-table-statistics-body')
 	    trs = ptsb.find_elements_by_tag_name('tr')
@@ -293,7 +292,7 @@ def process_team_page(browser,url):
 	    print('this is Away')
 	    w = tss.find_element_by_link_text(team_statistics.view_Away)
 	    w.click()
-	    time.sleep(random.randrange(sleepMin,sleepMax))
+	    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	    tss = browser.find_element_by_id('team-squad-stats')
 	    ptsb = tss.find_element_by_id('player-table-statistics-body')
 	    trs = ptsb.find_elements_by_tag_name('tr')
@@ -319,10 +318,14 @@ def process_team_page(browser,url):
 	
 # 	process team history match
 	fixtures_but = browser.find_element_by_id('sub-navigation').find_element_by_link_text("Fixtures")
-   	fixtures_url = fixtures_but.get_attribute('href')
-   	team_fixtures_page.process_team_fixtures(browser, fixtures_url)
-   	
+	fixtures_url = fixtures_but.get_attribute('href')
+	team_fixtures_page.process_team_fixtures(browser, fixtures_url)
+
 #   process team squad
 	playerids = []
 	for playerid in playerids :
 		print('https://www.whoscored.com/Players/'+playerid+'/Fixtures')
+
+
+browser = webdriver.Chrome()
+process_team_page(browser, 'https://www.whoscored.com/Teams/65/Show/Spain-Barcelona')
