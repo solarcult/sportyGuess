@@ -1,6 +1,30 @@
 import mysql.connector
 from org.shil.db import team_statistics
 from org.shil import utils
+from datetime import datetime
+
+print(utils.isStrNone('N/A'))
+
+if utils.isStrNone('N/Aa'):
+    print('thisisit')
+else :
+    print('no')
+    
+"""
+
+print(datetime.now())
+
+print(datetime.now().strftime('%d-%m-%Y'))
+
+print(datetime.now().strftime('%d-%m-%Y %H:%M:%S'))
+
+
+ds ={
+    'tournament_name' : '3',
+    'date' : '3223'
+    }
+    
+utils.print_map(ds)
 
 s = 'https://www.whoscored.com/Teams/65/Show/Spain-Barcelona'
 
@@ -18,7 +42,7 @@ print(utils.find_player_id_from_playerurl(p))
 m ='https://www.whoscored.com/Matches/1284939/Preview/England-Premier-League-2018-2019-Liverpool-Watford'
 print(utils.find_match_id_from_matchurl(m))
 
-"""
+
 
 for i in range(0,8):
     print(i)

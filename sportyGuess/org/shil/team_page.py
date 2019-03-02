@@ -1,7 +1,7 @@
 import time
 import random
 from org.shil.db import team_statistics
-from org.shil import team_fixtures_page
+# from org.shil import team_fixtures_page
 from org.shil import utils
 from selenium import webdriver
 
@@ -19,8 +19,8 @@ def process_team_page(browser,url):
 	trs = ttss.find_element_by_id("top-team-stats-summary-content")
 	elements = trs.find_elements_by_tag_name("tr")
 	for element in elements:
-	    print(element.find_elements_by_css_selector("td")[0].text)
-	    print(element.find_elements_by_css_selector("td")[1].text)
+	    tournament = (element.find_elements_by_css_selector("td")[0].text)
+	    apps = (element.find_elements_by_css_selector("td")[1].text)
 	    print(element.find_elements_by_css_selector("td")[2].text)
 	    print(element.find_elements_by_css_selector("td")[3].text)
 	    print(element.find_elements_by_css_selector("td")[4].text)
@@ -235,7 +235,7 @@ def process_team_page(browser,url):
 	
 	for i in range(0,length):
 	    a = ass[i]
-	    print(a.text + ' Overall')
+	    print(' Overall')
 	    a.click()
 	    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	    o = tss.find_element_by_link_text(team_statistics.view_Overall)
@@ -319,7 +319,7 @@ def process_team_page(browser,url):
 # 	process team history match
 	fixtures_but = browser.find_element_by_id('sub-navigation').find_element_by_link_text("Fixtures")
 	fixtures_url = fixtures_but.get_attribute('href')
-	team_fixtures_page.process_team_fixtures(browser, fixtures_url)
+# 	team_fixtures_page.process_team_fixtures(browser, fixtures_url)
 
 #   process team squad
 	playerids = []

@@ -31,8 +31,7 @@ for li in lis :
 
 for key in touraments.keys() :
     print(key+" : "+ touraments[key])
-    tournament_page.process_tournament_page(browser, touraments[key])
-    break
+    tournament_page.process_tournament_page(browser, touraments[key],key)
 
 browser.quit()
 

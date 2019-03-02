@@ -1,3 +1,4 @@
+import MySQLdb
 
 sleepMin = 5
 sleepMax = 10
@@ -26,6 +27,16 @@ def find_match_id_from_matchurl(url):
     return find_xxx_id_from_url(url, MatchMark)
 
 
-def print_map(map):
-    for key in map.keys():
-        print(key + " : " + map[key])
+def print_map(amap):
+    for key in amap.keys():
+        print(key + " : " + amap[key])
+
+def getMysqlConnector():
+    return MySQLdb.connect(user='shil',password='sl134120',host='127.0.0.1',database = 'sporty')
+
+def isStrNone(strs):
+    if strs == 'N/A':
+        return True
+    if strs == '-':
+        return True
+    return False
