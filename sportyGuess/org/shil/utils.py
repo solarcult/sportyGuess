@@ -1,7 +1,7 @@
 import MySQLdb
 
-sleepMin = 5
-sleepMax = 10
+sleepMin = 8
+sleepMax = 16
 TeamMark = 'Teams/'
 PlayerMark = 'Players/'
 MatchMark = 'Matches/'
@@ -40,3 +40,10 @@ def isStrNone(strs):
     if strs == '-':
         return True
     return False
+
+def getStr(astr):
+    if astr == 'N/A':
+        return None
+    if astr == '-':
+        return None
+    return astr

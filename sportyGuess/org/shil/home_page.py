@@ -24,14 +24,13 @@ lis = uls.find_elements_by_tag_name('li')
 for li in lis :
     tourament_name = li.text
     link = li.find_element_by_tag_name('a').get_attribute('href')
-    print(tourament_name)
-    print(link)
     touraments[tourament_name] = link
 
+browser.quit()
 
 for key in touraments.keys() :
-    print(key+" : "+ touraments[key])
-    tournament_page.process_tournament_page(browser, touraments[key],key)
+#     print(key+" : "+ touraments[key])
+    tournament_page.process_tournament_page(touraments[key],key)
 
-browser.quit()
+
 

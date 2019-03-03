@@ -1,13 +1,15 @@
 import time
 import random
+from selenium import webdriver
 from org.shil import utils, team_page
 from org.shil.db import tournament_page_repository
 
 # https://www.whoscored.com/Regions/206/Tournaments/4/Spain-La-Liga
 
-def process_tournament_page(browser,url,tournament_name):
+def process_tournament_page(url,tournament_name):
 	
 	print('process_tournament_page : '+url)
+	browser = webdriver.Chrome()
 	
 	browser.get(url)
 	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
@@ -33,11 +35,14 @@ def process_tournament_page(browser,url,tournament_name):
 		goals_difference = tds[8].text
 		points = tds[9].text
 		tournament_page_repository.insert_tournament_team(tournament_name, no, team_name, team_link, team_id, played, win, draw, loss, goals_for, goals_against, goals_difference, points)
-
-		
+	
+	browser.quit()
+	
 	for key in tournament_teams.keys() :
-		print(key+" : "+ tournament_teams[key])
-		team_page.process_team_page(browser,tournament_teams[key])
-		break
+# 		print(key+" : "+ tournament_teams[key])
+		try:
+			team_page.process_team_page(tournament_teams[key])
+		except:
+			print("tournament_teams is a error")
 		
 		

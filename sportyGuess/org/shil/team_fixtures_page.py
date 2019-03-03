@@ -42,5 +42,5 @@ def process_team_fixtures(browser,url):
         print('https://www.whoscored.com/Matches/'+matchid+'/Preview')
         
 
-browser = webdriver.Chrome()
-process_team_fixtures(browser, 'https://www.whoscored.com/Teams/65/Fixtures')
+# browser = webdriver.Chrome()
+# process_team_fixtures(browser, 'https://www.whoscored.com/Teams/65/Fixtures')
