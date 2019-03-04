@@ -10,6 +10,7 @@ import time
 import random
 from org.shil import tournament_page
 from org.shil import utils
+from org.shil.db import fetch_url_repository
 
 browser = webdriver.Chrome()
 
@@ -29,8 +30,13 @@ for li in lis :
 browser.quit()
 
 for key in touraments.keys() :
-#     print(key+" : "+ touraments[key])
-    tournament_page.process_tournament_page(touraments[key],key)
-
+    print(key+" : "+ touraments[key])
+    params = [touraments[key],key]
+    fetch_url_repository.insert_fetch_url(touraments[key], fetch_url_repository.type_Tournament, params)
+    
+#     try:
+#         tournament_page.process_tournament_page(touraments[key],key)
+#     except:
+#         print("here is a error")
 
 

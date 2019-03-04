@@ -2,6 +2,23 @@ import mysql.connector
 from org.shil.db import team_statistics
 from org.shil import utils
 from datetime import datetime
+import json
+
+
+
+list = ['abc',12.5]
+
+print(list)
+
+jstr = json.dumps(list)
+
+print(jstr)
+
+ret = json.loads(jstr)
+
+print(ret)
+
+"""
 
 print(utils.isStrNone('N/A'))
 
@@ -10,7 +27,7 @@ if utils.isStrNone('N/Aa'):
 else :
     print('no')
     
-"""
+
 
 print(datetime.now())
 

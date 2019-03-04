@@ -3,7 +3,8 @@ import random
 # from org.shil import team_fixtures_page
 from org.shil import utils
 from selenium import webdriver
-from org.shil.db import team_statistics_repository, squad_statistics_repository
+from org.shil.db import team_statistics_repository, squad_statistics_repository,\
+	fetch_url_repository
 
 # https://www.whoscored.com/Teams/65/Show/Spain-Barcelona
 
@@ -15,8 +16,19 @@ def process_team_page(url):
 	browser.get(url);
 	time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 	
+	errors = []
+	
 	team_id = utils.find_team_id_from_teamurl(url)
 	team_name = browser.find_element_by_class_name('team-header-name').text
+	
+	print("Record Team " + team_name +" fixtures")
+	try:
+		fixtures_but = browser.find_element_by_id('sub-navigation').find_element_by_link_text("Fixtures")
+		fixtures_url = fixtures_but.get_attribute('href')
+		fetch_url_repository.insert_fetch_url(fixtures_url, fetch_url_repository.type_TeamFixtures, fixtures_url)
+	except:
+		print(team_name +" fixture has error.")
+		errors.append("Important!!! "+team_name+" fixture.")
 	
 	print("Team Statistics " + team_name)
 	print("Summary - Overall")
@@ -36,9 +48,9 @@ def process_team_page(url):
 			rating = utils.getStr(element.find_elements_by_css_selector("td")[8].text)
 			
 			team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, goals, shots_pg, possession, apass, aerials_won)
-		
 	except:
-		print("here is a error")
+		print("Summary - Overall is a error")
+		errors.append("Summary-Overall")
 		
 	print("Summary - Home")
 	try:
@@ -68,7 +80,8 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, goals, shots_pg, possession, apass, aerials_won)
 	except:
-		print("here is a error")
+		print("Summary - Home is a error")
+		errors.append('Summary-Home')
 		
 	print("Summary - Away")
 	try:
@@ -98,7 +111,8 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, goals, shots_pg, possession, apass, aerials_won)
 	except:
-		print("here is a error")
+		print("Summary - Away is a error")
+		errors.append("Summary-Away")
 		
 	print("Defensive - Overall")
 	try:
@@ -122,7 +136,8 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
 	except:
-		print("here is a error")
+		print("Defensive - Overall is a error")
+		errors.append('Defensive-Overall')
 		
 	print("Defensive - Home")
 	try:
@@ -151,7 +166,8 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
 	except:
-		print("here is a error")
+		print("Defensive - Home is a error")
+		errors.append('Defensive-Home')
 		
 	print("Defensive - Away")
 	try:
@@ -180,7 +196,8 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
 	except:
-		print("here is a error")
+		print("Defensive - Away is a error")
+		errors.append('Defensive-Away')
 	
 	print("Offensive - Overall")
 	try:
@@ -204,12 +221,12 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
 	except:
-		print("here is a error")
+		print("Offensive - Overall is a error")
+		errors.append('Offensive-Overall')
 	
 	print("Offensive - Home")
 	
 	try:
-		
 		listbox = ttss.find_element_by_id('field')
 		dds = listbox.find_elements_by_tag_name('dd')
 		for dd in dds:
@@ -234,7 +251,8 @@ def process_team_page(url):
 		
 			team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
 	except:
-		print("here is a error")
+		print("Offensive - Home is a error")
+		errors.append('Offensive-Home')
 	
 	print("Offensive - Away")
 	try:
@@ -262,26 +280,29 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
 	except:
-		print("here is a error")
+		print("Offensive - Away is a error")
+		errors.append('Offensive-Away')
 
 	print('Team Squad')
-	try:
-		tss = browser.find_element_by_id('team-squad-stats')
-		option = tss.find_element_by_id('tournamentOptions')
-		ass = option.find_elements_by_tag_name('a')
-		i=0
-		length = len(ass)
-# 		print(length)
-		
-		for i in range(0,length):
+
+	tss = browser.find_element_by_id('team-squad-stats')
+	option = tss.find_element_by_id('tournamentOptions')
+	ass = option.find_elements_by_tag_name('a')
+	i=0
+	length = len(ass)
+	
+	for i in range(0,length):
+		try:
 			tss = browser.find_element_by_id('team-squad-stats')
 			option = tss.find_element_by_id('tournamentOptions')
 			ass = option.find_elements_by_tag_name('a')
 			a = ass[i]
 			tournament = a.text
-			print(a.text + ' Overall')
+			print(tournament + ' Overall')
 			a.click()
 			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+			
+			tss = browser.find_element_by_id('team-squad-stats')
 			o = tss.find_element_by_link_text(team_statistics_repository.view_Overall)
 			o.click()
 			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
@@ -304,8 +325,15 @@ def process_team_page(url):
 				rating = utils.getStr(tds[15].text)
 				
 				squad_statistics_repository.insert_squad_statistics_summary(tournament, team_statistics_repository.view_Overall, player_id, player_name, rating, cm, apps, mins, goals, assists, shots_pg, apass, aerials_won, man_ot_match)
-			
-			print('this is Home')
+				print('Record Player ' + player_name +' Fixtures')
+				player_fixtures_url = 'https://www.whoscored.com/Players/'+player_id+'/Fixtures'
+				fetch_url_repository.insert_fetch_url(player_fixtures_url, fetch_url_repository.type_PlayerFixtures, player_fixtures_url)
+		except:
+			print("Team Squad " + tournament + " Overall"  +" has a error")
+			errors.append("Important!!! Team Squad " + tournament + " Overall")
+		
+		print(tournament + ' Home')
+		try:
 			h = tss.find_element_by_link_text(team_statistics_repository.view_Home)
 			h.click()
 			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
@@ -329,8 +357,12 @@ def process_team_page(url):
 				rating = utils.getStr(tds[15].text)
 				
 				squad_statistics_repository.insert_squad_statistics_summary(tournament, team_statistics_repository.view_Home, player_id, player_name, rating, cm, apps, mins, goals, assists, shots_pg, apass, aerials_won, man_ot_match)
-				
-			print('this is Away')
+		except:
+			print("Team Squad " + tournament + " Home" +" has a error")
+			errors.append("Team Squad " + tournament + " Home")
+			
+		print(tournament + ' Away')
+		try:
 			w = tss.find_element_by_link_text(team_statistics_repository.view_Away)
 			w.click()
 			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
@@ -354,18 +386,21 @@ def process_team_page(url):
 				rating = utils.getStr(tds[15].text)
 				
 				squad_statistics_repository.insert_squad_statistics_summary(tournament, team_statistics_repository.view_Away, player_id, player_name, rating, cm, apps, mins, goals, assists, shots_pg, apass, aerials_won, man_ot_match)
-	except:
-		print("here is a error")
+		except:
+			print("Team Squad " + tournament + " Away" + " has a error")
+			errors.append("Team Squad " + tournament + " Away")
+	
+	
+	fetch_url_repository.update_last_record_of_url_status(url, errors)
+	
+	
 	browser.quit()
-# 	process team history match
-# 	fixtures_but = browser.find_element_by_id('sub-navigation').find_element_by_link_text("Fixtures")
-# 	fixtures_url = fixtures_but.get_attribute('href')
-# 	team_fixtures_page.process_team_fixtures(browser, fixtures_url)
+
 
 #   process team squad
 # 	playerids = []
 # 	for playerid in playerids :
-# 		print('https://www.whoscored.com/Players/'+playerid+'/Fixtures')
+# 		print()
 
 
 # https://www.whoscored.com/Teams/65/Show/Spain-Barcelona

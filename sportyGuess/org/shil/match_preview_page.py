@@ -13,8 +13,9 @@ from org.shil import utils
 怎样利用战前的数据统计与预测
 '''
 
-def process_match_preview(browser,url):
+def process_match_preview(url):
     
+    browser = webdriver.Chrome()
     print('process_match_preview : '+url)
     browser.get(url)
     time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
@@ -93,6 +94,8 @@ def process_match_preview(browser,url):
     print('away missing:')
     utils.print_map(a_missing_players)
     
+    browser.quit()
+    
 #     remove to team_page
 #     for playerid in playerids :
 #         print('https://www.whoscored.com/Players/'+playerid+'/Fixtures')
@@ -100,5 +103,4 @@ def process_match_preview(browser,url):
 # 'https://www.whoscored.com/Matches/1316424/Preview'
 # 'https://www.whoscored.com/Matches/1284927/Preview/England-Premier-League-2018-2019-Chelsea-Tottenham'
 
-browser = webdriver.Chrome()
-process_match_preview(browser,'https://www.whoscored.com/Matches/1284927/Preview')
+process_match_preview('https://www.whoscored.com/Matches/1284927/Preview')

@@ -2,7 +2,7 @@ import time
 import random
 from selenium import webdriver
 from org.shil import utils, team_page
-from org.shil.db import tournament_page_repository
+from org.shil.db import tournament_page_repository, fetch_url_repository
 
 # https://www.whoscored.com/Regions/206/Tournaments/4/Spain-La-Liga
 
@@ -39,10 +39,13 @@ def process_tournament_page(url,tournament_name):
 	browser.quit()
 	
 	for key in tournament_teams.keys() :
-# 		print(key+" : "+ tournament_teams[key])
-		try:
-			team_page.process_team_page(tournament_teams[key])
-		except:
-			print("tournament_teams is a error")
+		print(key+" : "+ tournament_teams[key])
+		fetch_url_repository.insert_fetch_url(tournament_teams[key], fetch_url_repository.type_TeamHome, tournament_teams[key])
+	
+	fetch_url_repository.update_last_record_of_url_status(url, [])	
+# 		try:
+# 			team_page.process_team_page(tournament_teams[key])
+# 		except:
+# 			print("tournament_teams is a error")
 		
 		
