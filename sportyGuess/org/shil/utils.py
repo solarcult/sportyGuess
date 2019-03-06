@@ -1,4 +1,5 @@
 import MySQLdb
+from datetime import datetime
 
 sleepMin = 8
 sleepMax = 16
@@ -6,6 +7,7 @@ TeamMark = 'Teams/'
 PlayerMark = 'Players/'
 MatchMark = 'Matches/'
 
+sdate_format = '%d-%m-%Y'
 
 def find_xxx_id_from_url(url,xxx):
     mark = url.find(xxx)
@@ -31,19 +33,23 @@ def print_map(amap):
     for key in amap.keys():
         print(key + " : " + amap[key])
 
-def getMysqlConnector():
+def get_mysql_connector():
     return MySQLdb.connect(user='shil',password='sl134120',host='127.0.0.1',database = 'sporty')
 
-def isStrNone(strs):
-    if strs == 'N/A':
-        return True
-    if strs == '-':
-        return True
-    return False
-
-def getStr(astr):
+def getStr(xstr):
+    astr = xstr.strip()
     if astr == 'N/A':
         return None
     if astr == '-':
         return None
+    if len(astr) == 0:
+        return None
+        
     return astr
+
+def sdate2date(sdate):
+    return datetime.strptime(sdate,sdate_format)
+
+def date2sdate(date):
+    return date.strftime(sdate_format)
+

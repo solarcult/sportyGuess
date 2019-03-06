@@ -4,10 +4,10 @@ Created on 2019-Feb-24
 @author: shil
 '''
 from selenium import webdriver
-from org.shil.db import team_statistics
+from org.shil.db import team_statistics_temp
 import time
 import random
-from org.shil.db.team_statistics import view_Home, view_Away, view_Overall
+from org.shil.db.team_statistics_temp import view_Home, view_Away, view_Overall
 
 # print('this is my first python code i know nothing i will put everything in this file because i dont know what should i do good luck to me LOL')
 

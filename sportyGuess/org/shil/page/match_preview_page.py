@@ -9,7 +9,7 @@ from org.shil import utils
 仔细比对了preview的数据：
 第一，阵容是假想的，和真实情况有差异，这还是小事
 最重要的是，数据都是最新的，不是当时的值，根本无法用于预测。只能通过每个player的历史数据反算吗?可以试试
-应该只处理out的运动员,排序14个,算均值? 
+应该只处理out的运动员,排序15个,算均值? 
 怎样利用战前的数据统计与预测
 '''
 
@@ -53,7 +53,75 @@ def process_match_preview(url):
         a_player_rate = ul.find_elements_by_tag_name('li')[1].text
         away_players[a_player_id] = a_player_rate
     
-    print("----------------------------------------")
+    print('data part')
+    datapart = browser.find_element_by_id('probable-lineup-stats')
+    stat_groups = datapart.find_elements_by_class_name('stat-group')
+    stats = stat_groups[0].find_elements_by_class_name('stat')
+    
+    spans = stats[0].find_elements_by_tag_name('span')
+
+    print('this is:'+spans[3].text)
+    print(spans[4].text) # Goals
+    print('this is:'+spans[5].text)
+
+
+    spans = stats[1].find_elements_by_tag_name('span')
+
+    print('this is:'+spans[3].text)
+    print(spans[4].text) # Assists
+    print('this is:'+spans[5].text)
+
+
+
+    stats = stat_groups[1].find_elements_by_class_name('stat')
+    
+    spans = stats[0].find_elements_by_tag_name('span')
+#     print(spans[0].text)
+    print('this is:'+spans[1].text)
+#     print(spans[2].text)
+    print(spans[3].text)
+    print('this is:'+spans[4].text)
+#     print(spans[5].text)
+#     print(spans[6].text)
+
+    stats = stat_groups[2].find_elements_by_class_name('stat')
+    spans = stats[0].find_elements_by_tag_name('span')
+#     print(spans[0].text)
+    print('this is:'+spans[1].text)
+#     print(spans[2].text)
+    print(spans[3].text)
+    print('this is:'+spans[4].text) # Assists
+#     print('this is:'+spans[5].text)
+#     print(spans[6].text)
+    
+    spans = stats[1].find_elements_by_tag_name('span')
+#     print(spans[0].text)
+    print('this is:'+spans[1].text)
+#     print(spans[2].text)
+    print(spans[3].text)
+    print('this is:'+spans[4].text) # Assists
+#     print('this is:'+spans[5].text)
+#     print(spans[6].text)
+    
+    spans = stats[2].find_elements_by_tag_name('span')
+#     print(spans[0].text)
+    print('this is:'+spans[1].text)
+#     print(spans[2].text)
+    print(spans[3].text)
+    print('this is:'+spans[4].text) # Assists
+#     print('this is:'+spans[5].text)
+#     print(spans[6].text)
+    
+    spans = stats[3].find_elements_by_tag_name('span')
+#     print(spans[0].text)
+    print('this is:'+spans[1].text)
+#     print(spans[2].text)
+    print(spans[3].text)
+    print('this is:'+spans[4].text) # Assists
+#     print('this is:'+spans[5].text)
+#     print(spans[6].text)
+    
+    print("missing players part")
     
     missing_players = browser.find_element_by_id('missing-players')
     home_missing = missing_players.find_element_by_class_name('home')
@@ -71,7 +139,7 @@ def process_match_preview(url):
             h_missing_players[h_m_p_id] = h_status
                 
     except :
-        print('home missing ignore me please')
+        print('home missing data no exist, ignore me please')
     
     a_missing_players = {}
     try:
@@ -87,7 +155,7 @@ def process_match_preview(url):
             a_missing_players[a_m_p_id] = a_status
                 
     except :
-        print('away missing ignore me please')
+        print('away missing data no exist, ignore me please')
     
     print('home missing:')
     utils.print_map(h_missing_players)

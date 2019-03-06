@@ -8,7 +8,6 @@ Created on 2019-Feb-27
 from selenium import webdriver
 import time
 import random
-from org.shil import tournament_page
 from org.shil import utils
 from org.shil.db import fetch_url_repository
 

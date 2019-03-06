@@ -197,7 +197,7 @@ def process_team_page(url):
 			team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
 	except:
 		print("Defensive - Away is a error")
-		errors.append('Defensive-Away')
+		errors.append('Defensive-Away!')
 	
 	print("Offensive - Overall")
 	try:
@@ -222,7 +222,7 @@ def process_team_page(url):
 			team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
 	except:
 		print("Offensive - Overall is a error")
-		errors.append('Offensive-Overall')
+		errors.append('Offensive-Overall!')
 	
 	print("Offensive - Home")
 	
@@ -252,7 +252,7 @@ def process_team_page(url):
 			team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
 	except:
 		print("Offensive - Home is a error")
-		errors.append('Offensive-Home')
+		errors.append('Offensive-Home!')
 	
 	print("Offensive - Away")
 	try:
@@ -281,7 +281,7 @@ def process_team_page(url):
 			team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
 	except:
 		print("Offensive - Away is a error")
-		errors.append('Offensive-Away')
+		errors.append('Offensive-Away!')
 
 	print('Team Squad')
 
@@ -329,8 +329,8 @@ def process_team_page(url):
 				player_fixtures_url = 'https://www.whoscored.com/Players/'+player_id+'/Fixtures'
 				fetch_url_repository.insert_fetch_url(player_fixtures_url, fetch_url_repository.type_PlayerFixtures, player_fixtures_url)
 		except:
-			print("Team Squad " + tournament + " Overall"  +" has a error")
-			errors.append("Important!!! Team Squad " + tournament + " Overall")
+			print("Team Squad " + tournament + " Overall has error")
+			errors.append("Important!!! Team Squad " + tournament + " Overall!")
 		
 		print(tournament + ' Home')
 		try:
@@ -358,8 +358,8 @@ def process_team_page(url):
 				
 				squad_statistics_repository.insert_squad_statistics_summary(tournament, team_statistics_repository.view_Home, player_id, player_name, rating, cm, apps, mins, goals, assists, shots_pg, apass, aerials_won, man_ot_match)
 		except:
-			print("Team Squad " + tournament + " Home" +" has a error")
-			errors.append("Team Squad " + tournament + " Home")
+			print("Team Squad " + tournament + " Home has error")
+			errors.append("Team Squad " + tournament + " Home!")
 			
 		print(tournament + ' Away')
 		try:
@@ -387,13 +387,11 @@ def process_team_page(url):
 				
 				squad_statistics_repository.insert_squad_statistics_summary(tournament, team_statistics_repository.view_Away, player_id, player_name, rating, cm, apps, mins, goals, assists, shots_pg, apass, aerials_won, man_ot_match)
 		except:
-			print("Team Squad " + tournament + " Away" + " has a error")
-			errors.append("Team Squad " + tournament + " Away")
+			print("Team Squad " + tournament + " Away has error")
+			errors.append("Team Squad " + tournament + " Away!")
 	
 	
 	fetch_url_repository.update_last_record_of_url_status(url, errors)
-	
-	
 	browser.quit()
 
 
@@ -405,4 +403,4 @@ def process_team_page(url):
 
 # https://www.whoscored.com/Teams/65/Show/Spain-Barcelona
 # browser = webdriver.Chrome()
-# process_team_page(browser, 'https://www.whoscored.com/Teams/560/Show/Russia-Zenit-St-Petersburg')
+process_team_page('https://www.whoscored.com/Teams/560/Show/Russia-Zenit-St-Petersburg')

@@ -1,10 +1,57 @@
 import mysql.connector
-from org.shil.db import team_statistics
+from org.shil.db import team_statistics_temp
+from org.shil.entity.match_fixture_entity import match_fixture_entity
 from org.shil import utils
 from datetime import datetime
 import json
 
 
+print(float('4.55'))
+
+"""
+
+date = datetime.strptime('07-03-2018','%d-%m-%Y')
+print(date)
+print(datetime.now())
+
+
+
+a = '3 : 0'
+
+print(a.split(':')[0].strip())
+print(a.split(':')[1].strip())
+
+
+
+
+a = match_fixture_entity()
+a.match_id = 23
+a.result = 'w'
+
+b = match_fixture_entity()
+b.match_id=23
+
+print((b))
+
+a.print_self()
+
+print(a == b)
+
+
+
+
+print(utils.getStr('                           '))
+
+
+b = " a "
+print(b.isspace())
+print(b.strip())
+print(len(b))
+
+c="*4:3*"
+
+print(c)
+print(c.strip('*'))
 
 list = ['abc',12.5]
 
@@ -18,7 +65,7 @@ ret = json.loads(jstr)
 
 print(ret)
 
-"""
+
 
 print(utils.isStrNone('N/A'))
 
