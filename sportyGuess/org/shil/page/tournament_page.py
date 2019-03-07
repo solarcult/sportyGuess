@@ -38,17 +38,21 @@ def process_tournament_page(url,tournament_name):
 				points = tds[9].text
 				tournament_page_repository.insert_tournament_team(tournament_name, no, team_name, team_link, team_id, played, win, draw, loss, goals_for, goals_against, goals_difference, points)
 			except Exception as e:
-				print("something wrong here!"+e)
-				errors.append("team:"+e)
+				print("something wrong here!")
+				print(e)
+				errors.append(e)
+				
+		for key in tournament_teams.keys() :
+			print(key+" : "+ tournament_teams[key])
+			fetch_url_repository.insert_fetch_url(tournament_teams[key], fetch_url_repository.type_TeamHome, tournament_teams[key])	
+			
 	except Exception as e:
-		print("yeah , i don't have standing class!"+e)
-		errors.append("yeah , i don't have standing class!"+e)
+		print("yeah , i don't have standing class!")
+		print(e)
+		errors.append("yeah , i don't have standing class!")
+		errors.append(e)
 	browser.quit()
-	
-	for key in tournament_teams.keys() :
-		print(key+" : "+ tournament_teams[key])
-		fetch_url_repository.insert_fetch_url(tournament_teams[key], fetch_url_repository.type_TeamHome, tournament_teams[key])
-	
+
 	fetch_url_repository.update_last_record_of_url_status(url, errors)
 	
 

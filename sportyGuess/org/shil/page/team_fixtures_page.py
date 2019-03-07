@@ -54,8 +54,10 @@ def process_team_fixtures(url):
             match_fixtures_repository.insert_match_fixture(mfe)
             
         except Exception as e:
-            print('something wrong is here:!'+e)
-            errors.append(mfe.match_id + ":" + e)
+            print('something wrong is here:!')
+            print(e)
+            errors.append(mfe.match_id + " error :")
+            errors.append(e)
     
     browser.quit()
     

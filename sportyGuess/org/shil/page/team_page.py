@@ -27,8 +27,10 @@ def process_team_page(url):
 		fixtures_url = fixtures_but.get_attribute('href')
 		fetch_url_repository.insert_fetch_url(fixtures_url, fetch_url_repository.type_TeamFixtures, fixtures_url)
 	except Exception as e:
-		print(team_name +" fixture has error."+e)
-		errors.append(team_name+":"+e)
+		print(team_name +" fixture has error.")
+		print(e)
+		errors.append(team_name +" fixture:")
+		errors.append(e)
 	
 	print("Team Statistics " + team_name)
 	print("Summary - Overall")
@@ -49,8 +51,10 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, goals, shots_pg, possession, apass, aerials_won)
 	except Exception as e:
-		print("Summary - Overall is a error "+e)
-		errors.append("Summary-Overall:"+e)
+		print("Summary - Overall is a error ")
+		print(e)
+		errors.append("Summary - Overall:")
+		errors.append(e)
 		
 	print("Summary - Home")
 	try:
@@ -80,8 +84,10 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, goals, shots_pg, possession, apass, aerials_won)
 	except Exception as e:
-		print("Summary - Home is a error "+e)
-		errors.append('Summary-Home:'+e)
+		print("Summary - Home is a error ")
+		print(e)
+		errors.append('Summary-Home:')
+		errors.append(e)
 		
 	print("Summary - Away")
 	try:
@@ -111,8 +117,10 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, goals, shots_pg, possession, apass, aerials_won)
 	except Exception as e:
-		print("Summary - Away is a error "+e)
-		errors.append("Summary-Away:"+e)
+		print("Summary - Away is a error ")
+		print(e)
+		errors.append("Summary-Away:")
+		errors.append(e)
 		
 	print("Defensive - Overall")
 	try:
@@ -136,8 +144,10 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
 	except Exception as e:
-		print("Defensive - Overall is a error."+e)
-		errors.append('Defensive-Overall:'+e)
+		print("Defensive - Overall is a error.")
+		print(e)
+		errors.append('Defensive-Overall:')
+		errors.append(e)
 		
 	print("Defensive - Home")
 	try:
@@ -166,8 +176,10 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
 	except Exception as e:
-		print("Defensive - Home is a error:"+e)
-		errors.append('Defensive-Home:'+e)
+		print("Defensive - Home is a error:")
+		print(e)
+		errors.append('Defensive-Home:')
+		errors.append(e)
 		
 	print("Defensive - Away")
 	try:
@@ -196,8 +208,10 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
 	except Exception as e:
-		print("Defensive - Away is a error:"+e)
-		errors.append('Defensive-Away!'+e)
+		print("Defensive - Away is a error:")
+		print(e)
+		errors.append('Defensive-Away:')
+		errors.append(e)
 	
 	print("Offensive - Overall")
 	try:
@@ -221,8 +235,10 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
 	except Exception as e:
-		print("Offensive - Overall is a error "+e)
-		errors.append('Offensive-Overall!'+e)
+		print("Offensive - Overall is a error ")
+		print(e)
+		errors.append('Offensive-Overall:')
+		errors.append(e)
 	
 	print("Offensive - Home")
 	
@@ -251,8 +267,10 @@ def process_team_page(url):
 		
 			team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
 	except Exception as e:
-		print("Offensive - Home is a error."+e)
-		errors.append('Offensive-Home!'+e)
+		print("Offensive - Home is a error.")
+		print(e)
+		errors.append('Offensive-Home:')
+		errors.append(e)
 	
 	print("Offensive - Away")
 	try:
@@ -280,8 +298,10 @@ def process_team_page(url):
 			
 			team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
 	except Exception as e:
-		print("Offensive - Away is a error."+e)
-		errors.append('Offensive-Away!'+e)
+		print("Offensive - Away is a error.")
+		print(e)
+		errors.append('Offensive-Away:')
+		errors.append(e)
 
 	print('Team Squad')
 
@@ -329,8 +349,10 @@ def process_team_page(url):
 				player_fixtures_url = 'https://www.whoscored.com/Players/'+player_id+'/Fixtures'
 				fetch_url_repository.insert_fetch_url(player_fixtures_url, fetch_url_repository.type_PlayerFixtures, player_fixtures_url)
 		except Exception as e:
-			print("Team Squad " + tournament + " Overall has error!"+e)
-			errors.append("Team Squad " + tournament + " Overall!"+e)
+			print("Team Squad " + tournament + " Overall has error!")
+			print(e)
+			errors.append("Team Squad " + tournament + " Overall:")
+			errors.append(e)
 		
 		print(tournament + ' Home')
 		try:
@@ -358,8 +380,10 @@ def process_team_page(url):
 				
 				squad_statistics_repository.insert_squad_statistics_summary(tournament,team_id, team_statistics_repository.view_Home, player_id, player_name, rating, cm, apps, mins, goals, assists, shots_pg, apass, aerials_won, man_ot_match)
 		except Exception as e:
-			print("Team Squad " + tournament + " Home has error."+e)
-			errors.append("Team Squad " + tournament + " Home!"+e)
+			print("Team Squad " + tournament + " Home has error.")
+			print(e)
+			errors.append("Team Squad " + tournament + " Home!")
+			errors.append(e)
 			
 		print(tournament + ' Away')
 		try:
@@ -387,8 +411,10 @@ def process_team_page(url):
 				
 				squad_statistics_repository.insert_squad_statistics_summary(tournament,team_id, team_statistics_repository.view_Away, player_id, player_name, rating, cm, apps, mins, goals, assists, shots_pg, apass, aerials_won, man_ot_match)
 		except Exception as e:
-			print("Team Squad " + tournament + " Away has error."+e)
-			errors.append("Team Squad " + tournament + " Away!"+e)
+			print("Team Squad " + tournament + " Away has error.")
+			print(e)
+			errors.append("Team Squad " + tournament + " Away:")
+			errors.append(e)
 	
 	
 	browser.quit()

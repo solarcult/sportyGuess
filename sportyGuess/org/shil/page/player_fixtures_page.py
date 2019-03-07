@@ -45,7 +45,8 @@ def process_player_fixtures(url):
             player_match_behavior_repository.insert_player_match_behavior(match_id, player_id, player_name, mins, rating_in_this_match, sdate)
 
         except Exception as e:
-            print("something wrong in here!"+e)
+            print("something wrong in here!")
+            print(e)
             errors.append(e)
     
     browser.quit()

@@ -24,7 +24,8 @@ def process_page_detail(atype,params):
         print('where fuck am i ?')
         
     except Exception as e:
-        print('sorry something has problem maybe network is too slow to load the content , please try next url : '+e)
+        print('sorry something has problem maybe network is too slow to load the content , please try next url : ')
+        print(e)
 
 
 '''

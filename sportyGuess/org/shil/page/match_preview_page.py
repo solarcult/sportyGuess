@@ -48,7 +48,8 @@ def process_match_preview(url):
             h_player_rate = ul.find_elements_by_tag_name('li')[1].text
             h_players[h_player_id] = h_player_rate
         except Exception as e:
-            errors.append(h_player_id+":"+e)
+            errors.append(h_player_id+"error : ")
+            errors.append(e)
 #     utils.print_map(home_players)
     mpe.home_players = json.dumps(h_players)
     
@@ -61,7 +62,8 @@ def process_match_preview(url):
             a_player_rate = ul.find_elements_by_tag_name('li')[1].text
             a_players[a_player_id] = a_player_rate
         except Exception as e:
-            errors.append(h_player_id+":"+e)
+            errors.append(h_player_id+" error:")
+            errors.append(e)
 #     utils.print_map(away_players)
     mpe.away_players = json.dumps(a_players)
     
@@ -123,8 +125,10 @@ def process_match_preview(url):
 #             rating = tds[3].text
             h_missing_players[h_m_p_id] = h_status
     except  Exception as e:
-        print('home missing data no exist, ignore me please'+e)
-        errors.append('home missing data no exist, ignore me please:'+e)
+        print('home missing data no exist, ignore me please')
+        print(e)
+        errors.append('home missing data no exist, ignore me please:')
+        errors.append(e)
     mpe.home_missing_players = json.dumps(h_missing_players)
     
     a_missing_players = {}
@@ -140,8 +144,10 @@ def process_match_preview(url):
 #             rating = tds[3].text
             a_missing_players[a_m_p_id] = a_status
     except Exception as e:
-        print('away missing data no exist, ignore me please'+e)
-        errors.append('away missing data no exist, ignore me please:'+e)
+        print('away missing data no exist, ignore me please')
+        print(e)
+        errors.append('away missing data no exist, ignore me please:')
+        errors.append(e)
     mpe.away_missing_players = json.dumps(a_missing_players)
     
     browser.quit()
