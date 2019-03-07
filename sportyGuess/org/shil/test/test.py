@@ -10,9 +10,8 @@ errors = []
 try:
     print(43+"abc")
 except Exception as e:
-    errors.append("abc")
-    errors.append(e)
-
+    errors.append("abc"+str(e))
+    
 print(errors)
 
 

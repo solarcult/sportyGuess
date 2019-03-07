@@ -30,7 +30,7 @@ def process_team_page(url):
 		print(team_name +" fixture has error.")
 		print(e)
 		errors.append(team_name +" fixture:")
-		errors.append(e)
+		errors.append(str(e))
 	
 	print("Team Statistics " + team_name)
 	print("Summary - Overall")
@@ -54,7 +54,7 @@ def process_team_page(url):
 		print("Summary - Overall is a error ")
 		print(e)
 		errors.append("Summary - Overall:")
-		errors.append(e)
+		errors.append(str(e))
 		
 	print("Summary - Home")
 	try:
@@ -87,7 +87,7 @@ def process_team_page(url):
 		print("Summary - Home is a error ")
 		print(e)
 		errors.append('Summary-Home:')
-		errors.append(e)
+		errors.append(str(e))
 		
 	print("Summary - Away")
 	try:
@@ -120,7 +120,7 @@ def process_team_page(url):
 		print("Summary - Away is a error ")
 		print(e)
 		errors.append("Summary-Away:")
-		errors.append(e)
+		errors.append(str(e))
 		
 	print("Defensive - Overall")
 	try:
@@ -147,7 +147,7 @@ def process_team_page(url):
 		print("Defensive - Overall is a error.")
 		print(e)
 		errors.append('Defensive-Overall:')
-		errors.append(e)
+		errors.append(str(e))
 		
 	print("Defensive - Home")
 	try:
@@ -179,7 +179,7 @@ def process_team_page(url):
 		print("Defensive - Home is a error:")
 		print(e)
 		errors.append('Defensive-Home:')
-		errors.append(e)
+		errors.append(str(e))
 		
 	print("Defensive - Away")
 	try:
@@ -211,7 +211,7 @@ def process_team_page(url):
 		print("Defensive - Away is a error:")
 		print(e)
 		errors.append('Defensive-Away:')
-		errors.append(e)
+		errors.append(str(e))
 	
 	print("Offensive - Overall")
 	try:
@@ -238,7 +238,7 @@ def process_team_page(url):
 		print("Offensive - Overall is a error ")
 		print(e)
 		errors.append('Offensive-Overall:')
-		errors.append(e)
+		errors.append(str(e))
 	
 	print("Offensive - Home")
 	
@@ -270,7 +270,7 @@ def process_team_page(url):
 		print("Offensive - Home is a error.")
 		print(e)
 		errors.append('Offensive-Home:')
-		errors.append(e)
+		errors.append(str(e))
 	
 	print("Offensive - Away")
 	try:
@@ -301,7 +301,7 @@ def process_team_page(url):
 		print("Offensive - Away is a error.")
 		print(e)
 		errors.append('Offensive-Away:')
-		errors.append(e)
+		errors.append(str(e))
 
 	print('Team Squad')
 
@@ -352,7 +352,7 @@ def process_team_page(url):
 			print("Team Squad " + tournament + " Overall has error!")
 			print(e)
 			errors.append("Team Squad " + tournament + " Overall:")
-			errors.append(e)
+			errors.append(str(e))
 		
 		print(tournament + ' Home')
 		try:
@@ -383,7 +383,7 @@ def process_team_page(url):
 			print("Team Squad " + tournament + " Home has error.")
 			print(e)
 			errors.append("Team Squad " + tournament + " Home!")
-			errors.append(e)
+			errors.append(str(e))
 			
 		print(tournament + ' Away')
 		try:
@@ -414,7 +414,7 @@ def process_team_page(url):
 			print("Team Squad " + tournament + " Away has error.")
 			print(e)
 			errors.append("Team Squad " + tournament + " Away:")
-			errors.append(e)
+			errors.append(str(e))
 	
 	
 	browser.quit()
@@ -431,5 +431,4 @@ def process_team_page(url):
 
 # https://www.whoscored.com/Teams/65/Show/Spain-Barcelona
 # browser = webdriver.Chrome()
-# process_team_page('https://www.whoscored.com/Teams/560/Show/Russia-Zenit-St-Petersburg')
-# process_team_page('https://www.whoscored.com/Teams/562/Show/Russia-FC-Rostov')
+process_team_page('https://www.whoscored.com/Teams/560/Show/Russia-Zenit-St-Petersburg')

@@ -47,7 +47,7 @@ def process_player_fixtures(url):
         except Exception as e:
             print("something wrong in here!")
             print(e)
-            errors.append(e)
+            errors.append(str(e))
     
     browser.quit()
     

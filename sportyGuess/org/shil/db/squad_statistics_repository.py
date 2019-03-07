@@ -25,7 +25,7 @@ def insert_squad_statistics_summary(tournament,team_id,view,player_id,player_nam
     insert_sql ="\
     INSERT INTO `squad_statistics` (\
         `tournament`,\
-        `team_id`\
+        `team_id`,\
         `type`,\
         `view`,\
         `player_id`,\
@@ -43,7 +43,7 @@ def insert_squad_statistics_summary(tournament,team_id,view,player_id,player_nam
         `man_ot_match`,\
         `sdate`) \
     VALUES \
-            (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
             
     values=(tournament,team_id,team_statistics_repository.type_Summary,view,player_id,player_name,datetime.now(),rating,cm,apps,mins,goals,assists,shots_pg,apass,aerials_won,man_ot_match,sdate)
     

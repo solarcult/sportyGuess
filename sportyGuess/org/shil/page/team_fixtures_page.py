@@ -57,7 +57,7 @@ def process_team_fixtures(url):
             print('something wrong is here:!')
             print(e)
             errors.append(mfe.match_id + " error :")
-            errors.append(e)
+            errors.append(str(e))
     
     browser.quit()
     

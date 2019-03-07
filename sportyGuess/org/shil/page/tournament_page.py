@@ -40,7 +40,7 @@ def process_tournament_page(url,tournament_name):
 			except Exception as e:
 				print("something wrong here!")
 				print(e)
-				errors.append(e)
+				errors.append(str(e))
 				
 		for key in tournament_teams.keys() :
 			print(key+" : "+ tournament_teams[key])
@@ -50,7 +50,7 @@ def process_tournament_page(url,tournament_name):
 		print("yeah , i don't have standing class!")
 		print(e)
 		errors.append("yeah , i don't have standing class!")
-		errors.append(e)
+		errors.append(str(e))
 	browser.quit()
 
 	fetch_url_repository.update_last_record_of_url_status(url, errors)
