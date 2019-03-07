@@ -2,6 +2,9 @@ import time
 import random
 from selenium import webdriver 
 from org.shil import utils
+from org.shil.entity.match_preview_entity import match_preview_entity
+from org.shil.db import match_preview_repository, fetch_url_repository
+import json
 
 # https://www.whoscored.com/Matches/1316424/Preview
 
@@ -20,109 +23,91 @@ def process_match_preview(url):
     browser.get(url)
     time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
     
+    mpe = match_preview_entity()
+    errors=[]
+    mpe.match_id = utils.find_match_id_from_matchurl(url)
     header = browser.find_element_by_class_name('pitch-formation-header')
     homet = header.find_element_by_class_name('home')
     homea = homet.find_element_by_tag_name('a')
-    home_team_name = homea.text
-    home_team_id = utils.find_team_id_from_teamurl(homea.get_attribute('href'))
+    mpe.home_team_name = homea.text
+    mpe.home_team_id = utils.find_team_id_from_teamurl(homea.get_attribute('href'))
     
     awayt = header.find_element_by_class_name('away')
     awaya = awayt.find_element_by_tag_name('a')
-    away_team_name = awaya.text
-    away_team_id = utils.find_team_id_from_teamurl(awaya.get_attribute('href'))
+    mpe.away_team_name = awaya.text
+    mpe.away_team_id = utils.find_team_id_from_teamurl(awaya.get_attribute('href'))
     
     pitch = browser.find_element_by_class_name('pitch')
     
-    home_players = {}
+    h_players = {}
     phome = pitch.find_element_by_class_name('home')
     uls = phome.find_elements_by_tag_name('ul')
     for ul in uls:
-        h_player_id = ul.get_attribute("data-playerid")
-#         print(h_player_id)
-#         player_name = ul.get_attribute("title")
-        h_player_rate = ul.find_elements_by_tag_name('li')[1].text
-        home_players[h_player_id] = h_player_rate
+        try:
+            h_player_id = ul.get_attribute("data-playerid")
+            h_player_rate = ul.find_elements_by_tag_name('li')[1].text
+            h_players[h_player_id] = h_player_rate
+        except Exception as e:
+            errors.append(h_player_id+":"+e)
+#     utils.print_map(home_players)
+    mpe.home_players = json.dumps(h_players)
     
-    away_players={}
+    a_players={}
     paway = pitch.find_element_by_class_name('away')
     uls = paway.find_elements_by_tag_name('ul')
     for ul in uls:
-        a_player_id = ul.get_attribute("data-playerid")
-#         print(a_player_id)
-#         player_name = ul.get_attribute("title")
-        a_player_rate = ul.find_elements_by_tag_name('li')[1].text
-        away_players[a_player_id] = a_player_rate
+        try:
+            a_player_id = ul.get_attribute("data-playerid")
+            a_player_rate = ul.find_elements_by_tag_name('li')[1].text
+            a_players[a_player_id] = a_player_rate
+        except Exception as e:
+            errors.append(h_player_id+":"+e)
+#     utils.print_map(away_players)
+    mpe.away_players = json.dumps(a_players)
     
-    print('data part')
+#     print('data part')
     datapart = browser.find_element_by_id('probable-lineup-stats')
     stat_groups = datapart.find_elements_by_class_name('stat-group')
     stats = stat_groups[0].find_elements_by_class_name('stat')
     
     spans = stats[0].find_elements_by_tag_name('span')
-
-    print('this is:'+spans[3].text)
-    print(spans[4].text) # Goals
-    print('this is:'+spans[5].text)
-
+    mpe.home_goals = spans[3].text
+#     print(spans[4].text) # Goals
+    mpe.away_goals = spans[5].text.split("(")[0].strip()
 
     spans = stats[1].find_elements_by_tag_name('span')
-
-    print('this is:'+spans[3].text)
-    print(spans[4].text) # Assists
-    print('this is:'+spans[5].text)
-
-
+    mpe.home_assists = spans[3].text
+#     print(spans[4].text) # Assists
+    mpe.away_assists = spans[5].text.split("(")[0].strip()
 
     stats = stat_groups[1].find_elements_by_class_name('stat')
-    
     spans = stats[0].find_elements_by_tag_name('span')
-#     print(spans[0].text)
-    print('this is:'+spans[1].text)
-#     print(spans[2].text)
-    print(spans[3].text)
-    print('this is:'+spans[4].text)
-#     print(spans[5].text)
-#     print(spans[6].text)
+    mpe.home_average_ratings = spans[1].text.split(" ")[1]
+#     print(spans[3].text) # Average Ratings
+    mpe.away_average_ratings = spans[4].text.split(" ")[0]
 
     stats = stat_groups[2].find_elements_by_class_name('stat')
     spans = stats[0].find_elements_by_tag_name('span')
-#     print(spans[0].text)
-    print('this is:'+spans[1].text)
-#     print(spans[2].text)
-    print(spans[3].text)
-    print('this is:'+spans[4].text) # Assists
-#     print('this is:'+spans[5].text)
-#     print(spans[6].text)
+    mpe.home_shots_pg = spans[1].text.split(" ")[1]
+#     print(spans[3].text) # Shots pg
+    mpe.away_shots_pg = spans[4].text.split(" ")[0]
     
     spans = stats[1].find_elements_by_tag_name('span')
-#     print(spans[0].text)
-    print('this is:'+spans[1].text)
-#     print(spans[2].text)
-    print(spans[3].text)
-    print('this is:'+spans[4].text) # Assists
-#     print('this is:'+spans[5].text)
-#     print(spans[6].text)
+    mpe.home_aerial_duel_success = spans[1].text.split(" ")[1].strip("%")
+#     print(spans[3].text) # Aerial Duel Success
+    mpe.away_aerial_duel_success = spans[4].text.split(" ")[0].strip("%")
     
     spans = stats[2].find_elements_by_tag_name('span')
-#     print(spans[0].text)
-    print('this is:'+spans[1].text)
-#     print(spans[2].text)
-    print(spans[3].text)
-    print('this is:'+spans[4].text) # Assists
-#     print('this is:'+spans[5].text)
-#     print(spans[6].text)
+    mpe.home_dribbles_pg = spans[1].text.split(" ")[1]
+#     print(spans[3].text) # Dribbles pg
+    mpe.away_dribbles_pg = spans[4].text.split(" ")[0]
     
     spans = stats[3].find_elements_by_tag_name('span')
-#     print(spans[0].text)
-    print('this is:'+spans[1].text)
-#     print(spans[2].text)
-    print(spans[3].text)
-    print('this is:'+spans[4].text) # Assists
-#     print('this is:'+spans[5].text)
-#     print(spans[6].text)
+    mpe.home_tackles_pg = spans[1].text.split(" ")[1]
+#     print(spans[3].text) #Tackles pg
+    mpe.away_tackles_pg = spans[4].text.split(" ")[0]
     
     print("missing players part")
-    
     missing_players = browser.find_element_by_id('missing-players')
     home_missing = missing_players.find_element_by_class_name('home')
     
@@ -137,9 +122,10 @@ def process_match_preview(url):
             h_status= tds[2].text
 #             rating = tds[3].text
             h_missing_players[h_m_p_id] = h_status
-                
-    except :
-        print('home missing data no exist, ignore me please')
+    except  Exception as e:
+        print('home missing data no exist, ignore me please'+e)
+        errors.append('home missing data no exist, ignore me please:'+e)
+    mpe.home_missing_players = json.dumps(h_missing_players)
     
     a_missing_players = {}
     try:
@@ -153,16 +139,15 @@ def process_match_preview(url):
             a_status = tds[2].text
 #             rating = tds[3].text
             a_missing_players[a_m_p_id] = a_status
-                
-    except :
-        print('away missing data no exist, ignore me please')
-    
-    print('home missing:')
-    utils.print_map(h_missing_players)
-    print('away missing:')
-    utils.print_map(a_missing_players)
+    except Exception as e:
+        print('away missing data no exist, ignore me please'+e)
+        errors.append('away missing data no exist, ignore me please:'+e)
+    mpe.away_missing_players = json.dumps(a_missing_players)
     
     browser.quit()
+    
+    match_preview_repository.insert_match_preview(mpe)
+    fetch_url_repository.update_last_record_of_url_status(url, errors)
     
 #     remove to team_page
 #     for playerid in playerids :
@@ -171,4 +156,4 @@ def process_match_preview(url):
 # 'https://www.whoscored.com/Matches/1316424/Preview'
 # 'https://www.whoscored.com/Matches/1284927/Preview/England-Premier-League-2018-2019-Chelsea-Tottenham'
 
-process_match_preview('https://www.whoscored.com/Matches/1284927/Preview')
+# process_match_preview('https://www.whoscored.com/Matches/1364706/Preview/Europe-UEFA-Europa-League-2018-2019-Chelsea-Dynamo-Kyiv')

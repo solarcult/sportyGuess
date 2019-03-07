@@ -44,11 +44,12 @@ def process_player_fixtures(url):
             
             player_match_behavior_repository.insert_player_match_behavior(match_id, player_id, player_name, mins, rating_in_this_match, sdate)
 
-        except:
-            print("something wrong in here!")
-            errors.append("something wrong in here!")
+        except Exception as e:
+            print("something wrong in here!"+e)
+            errors.append(e)
+    
+    browser.quit()
     
     fetch_url_repository.update_last_record_of_url_status(url, errors)
-    browser.quit()
         
-process_player_fixtures('https://www.whoscored.com/Players/9446/Fixtures')
+# process_player_fixtures('https://www.whoscored.com/Players/9446/Fixtures')

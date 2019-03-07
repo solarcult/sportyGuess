@@ -19,7 +19,7 @@ def insert_tournament_team(tournament,no,team_name,team_link,team_id,played,win,
         and exist == insert_values:
         
         # already exist this record, do not insert again
-        print(tournament+" : " + team_id +" nothing change, no need insert")
+        print(tournament+" : " + team_id +" tournament nothing change, no need insert")
         return
     
     sdate = utils.date2sdate(datetime.now())

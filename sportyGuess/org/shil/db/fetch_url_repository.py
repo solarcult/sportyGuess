@@ -18,7 +18,7 @@ def insert_fetch_url(url,atype,params):
     exist = query_fetch_url_last_record_sdate(url)
     if exist is not None and sdate == exist:
         # already exist this record, do not insert again
-        print(atype + "_" + url +" already exist, no need insert")
+        print(atype + "_" + url +" fetch url already exist, no need insert")
         return
     
     insert_sql ="\
@@ -51,9 +51,9 @@ def update_last_record_of_url_status(url,errors):
     if len(errors) > 0 :
         status = status_SomethingBlankOrIssue
     
-    update_sql = " UPDATE fetch_url SET status = %s , error_records = %s WHERE url = %s and sdate = %s"
+    update_sql = " UPDATE fetch_url SET status = %s , error_records = %s , sdate = %s  WHERE url = %s and sdate = %s "
     
-    values = (status,json.dumps(errors),url,sdate)
+    values = (status,json.dumps(errors),utils.date2sdate(datetime.now()),url,sdate)
     
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
@@ -77,8 +77,19 @@ def query_fetch_url_last_record_sdate(url):
         return None
     
     
+def query_todo_fetch_urls():
+    query_todo_sql ="SELECT type, params_json FROM fetch_url WHERE status = 'TODO' "
+    cnx = utils.get_mysql_connector()
+    cursor = cnx.cursor()
+    cursor.execute(query_todo_sql)
+    fetches = cursor.fetchall()
+    if fetches is not None :
+        return fetches    
+    else:
+        return None
+    
 # insert_fetch_url("12345", type_TeamHome, "goodluck")
 # print(query_fetch_url_last_record_sdate("12345"))
 # errors = []
 # update_last_record_of_url_status("12345", errors)
-    
+# print(query_todo_fetch_urls())

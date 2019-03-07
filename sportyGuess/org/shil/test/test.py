@@ -6,9 +6,20 @@ from datetime import datetime
 import json
 
 
-print(float('4.55'))
+errors = []
+try:
+    print(43+"abc")
+except Exception as e:
+    errors.append(e)
+
+print(errors)
+
 
 """
+
+print(float('4.55'))
+
+
 
 date = datetime.strptime('07-03-2018','%d-%m-%Y')
 print(date)

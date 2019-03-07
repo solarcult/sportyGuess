@@ -14,7 +14,7 @@ def insert_match_fixture(match_fixture_entity):
     
     if exist is not None \
         and exist == match_fixture_entity:
-        print(match_fixture_entity.match_id + " already exist, no need insert")
+        print(match_fixture_entity.match_id + " fixture already exist, no need insert")
         return
     
     insert_sql ="\

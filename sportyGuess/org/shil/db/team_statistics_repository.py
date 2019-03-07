@@ -24,7 +24,7 @@ def insert_team_statistics_summary(tournament,team_id,team_name,view,rating,apps
     if exist is not None \
         and insert_values == exist:
         # already exist this record, do not insert again
-        print(tournament + "_" + str(team_id) +"_" + team_name +"_" + type_Summary +"_" + view +" nothing change, no need insert")
+        print(tournament + "_" + str(team_id) +"_" + team_name +"_" + type_Summary +"_" + view +" team stat nothing change, no need insert")
         return
     sdate = utils.date2sdate(datetime.now())
     insert_sql ="\

@@ -2,9 +2,9 @@ from datetime import datetime
 from org.shil import utils
 from org.shil.db import team_statistics_repository
 
-def insert_squad_statistics_summary(tournament,view,player_id,player_name,rating,cm,apps,mins,goals,assists,shots_pg,apass,aerials_won,man_ot_match):
+def insert_squad_statistics_summary(tournament,team_id,view,player_id,player_name,rating,cm,apps,mins,goals,assists,shots_pg,apass,aerials_won,man_ot_match):
     
-    exist = query_squad_statistics_last_record_data(tournament, player_id, team_statistics_repository.type_Summary, view)
+    exist = query_squad_statistics_last_record_data(tournament, team_id, player_id, team_statistics_repository.type_Summary, view)
     if mins is not None:
         imins = int(mins)
     else:
@@ -18,13 +18,14 @@ def insert_squad_statistics_summary(tournament,view,player_id,player_name,rating
     if exist is not None \
         and insert_values == exist:
         # already exist this record, do not insert again
-        print(tournament + "_" + player_id +"_" + player_name +"_" + team_statistics_repository.type_Summary +"_" + view +" nothing change, no need insert")
+        print(tournament + "_"+ team_id+ "_" + player_id +"_" + player_name +"_" + team_statistics_repository.type_Summary +"_" + view +" squad nothing change, no need insert")
         return
     
     sdate = utils.date2sdate(datetime.now())
     insert_sql ="\
     INSERT INTO `squad_statistics` (\
         `tournament`,\
+        `team_id`\
         `type`,\
         `view`,\
         `player_id`,\
@@ -44,7 +45,7 @@ def insert_squad_statistics_summary(tournament,view,player_id,player_name,rating
     VALUES \
             (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
             
-    values=(tournament,team_statistics_repository.type_Summary,view,player_id,player_name,datetime.now(),rating,cm,apps,mins,goals,assists,shots_pg,apass,aerials_won,man_ot_match,sdate)
+    values=(tournament,team_id,team_statistics_repository.type_Summary,view,player_id,player_name,datetime.now(),rating,cm,apps,mins,goals,assists,shots_pg,apass,aerials_won,man_ot_match,sdate)
     
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
@@ -57,11 +58,11 @@ def insert_squad_statistics_summary(tournament,view,player_id,player_name,rating
     return nid
     
     
-def query_squad_statistics_last_record_data(tournament,player_id,atype,view):
-    query_last_data = "SELECT mins,rating FROM `squad_statistics` where tournament = %s and player_id = %s and type = %s and view = %s order by date desc limit 1"
+def query_squad_statistics_last_record_data(tournament,team_id,player_id,atype,view):
+    query_last_data = "SELECT mins,rating FROM `squad_statistics` where tournament = %s and team_id = %s and player_id = %s and type = %s and view = %s order by date desc limit 1"
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
-    cursor.execute(query_last_data,(tournament,player_id,atype,view))
+    cursor.execute(query_last_data,(tournament,team_id,player_id,atype,view))
     last_date = cursor.fetchone()
     if last_date is not None :
         return last_date

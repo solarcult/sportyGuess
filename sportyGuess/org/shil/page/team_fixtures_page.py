@@ -53,15 +53,17 @@ def process_team_fixtures(url):
             
             match_fixtures_repository.insert_match_fixture(mfe)
             
-        except:
-            print('something wrong is here:!')
-            errors.append(mfe.match_id + " team_fixture has error")
-        
+        except Exception as e:
+            print('something wrong is here:!'+e)
+            errors.append(mfe.match_id + ":" + e)
+    
+    browser.quit()
+    
     for matchid in matchids:
         preview_link = 'https://www.whoscored.com/Matches/'+matchid+'/Preview'
         fetch_url_repository.insert_fetch_url(preview_link, fetch_url_repository.type_MatchPreview, preview_link)
     
     fetch_url_repository.update_last_record_of_url_status(url, errors)
-    browser.quit()
+    
 
 # process_team_fixtures('https://www.whoscored.com/Teams/58/Fixtures/Spain-Real-Valladolid')
