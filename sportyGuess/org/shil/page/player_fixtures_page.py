@@ -30,17 +30,18 @@ def process_player_fixtures(url):
             sdate = tds[1].text #26-07-2018
     #         home_team_name = tds[2].find_element_by_tag_name('a').text
             home_team_id = utils.find_team_id_from_teamurl(tds[2].find_element_by_tag_name('a').get_attribute('href'))
-    #         goalsvs = tds[3].find_element_by_tag_name('a').text
-    #         match_id = utils.find_match_id_from_matchurl(tds[3].find_element_by_tag_name('a').get_attribute('href'))
+#             goalsvs = tds[3].find_element_by_tag_name('a').text
+            match_id = utils.find_match_id_from_matchurl(tds[3].find_element_by_tag_name('a').get_attribute('href'))
     #         away_team_name = tds[4].find_element_by_tag_name('a').text
             away_team_id = utils.find_team_id_from_teamurl(tds[4].find_element_by_tag_name('a').get_attribute('href'))
             mins = tds[7].text.strip('\'')
             rating_in_this_match = utils.getStr(tds[8].text)
             
-            match_id = match_fixtures_repository.query_match_id(home_team_id, away_team_id, sdate)
-            if(match_id is None):
-                errors.append("htid: "+ home_team_id+ "atid: " +away_team_id +"sd: " + sdate +" is missing.")
-                continue
+#             match_id = match_fixtures_repository.query_match_id(home_team_id, away_team_id, sdate)
+#             if(match_id is None):
+#                 print("htid: "+ home_team_id+ "atid: " +away_team_id +"sd: " + sdate +" is missing.")
+#                 errors.append("htid: "+ home_team_id+ " atid: " +away_team_id +" sdate: " + sdate +" is missing.")
+#                 continue
             
             player_match_behavior_repository.insert_player_match_behavior(match_id, player_id, player_name, mins, rating_in_this_match, sdate)
 
@@ -53,4 +54,4 @@ def process_player_fixtures(url):
     
     fetch_url_repository.update_last_record_of_url_status(url, errors)
         
-# process_player_fixtures('https://www.whoscored.com/Players/9446/Fixtures')
+# process_player_fixtures('https://www.whoscored.com/Players/129197/Fixtures')

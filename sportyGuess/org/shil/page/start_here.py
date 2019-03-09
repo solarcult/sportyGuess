@@ -1,4 +1,5 @@
-import json
+import json,time
+from datetime import datetime
 from org.shil.db import fetch_url_repository
 from org.shil.page import tournament_page, team_page, team_fixtures_page,\
     player_fixtures_page, match_preview_page
@@ -39,7 +40,9 @@ xs = fetch_url_repository.query_todo_fetch_urls()
 while xs is not None:
     
     for x in xs:
+        starttime = time.time()
         process_page_detail(x[0], json.loads(str(x[1])))
+        print(str(datetime.now()) + " done with seconds :" + str(time.time()-starttime))
     
     xs = fetch_url_repository.query_todo_fetch_urls()
     

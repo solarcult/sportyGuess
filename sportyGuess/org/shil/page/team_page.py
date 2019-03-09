@@ -304,12 +304,18 @@ def process_team_page(url):
 		errors.append(str(e))
 
 	print('Team Squad')
-
-	tss = browser.find_element_by_id('team-squad-stats')
-	option = tss.find_element_by_id('tournamentOptions')
-	ass = option.find_elements_by_tag_name('a')
-	i=0
-	length = len(ass)
+	length = 0
+	try:
+		tss = browser.find_element_by_id('team-squad-stats')
+		option = tss.find_element_by_id('tournamentOptions')
+		ass = option.find_elements_by_tag_name('a')
+		i=0
+		length = len(ass)
+	except Exception as e:
+		print('Team Squad is missing')
+		print(e)
+		errors.append('Team Squad is missing')
+		errors.append(str(e))
 	
 	for i in range(0,length):
 		try:
@@ -431,4 +437,4 @@ def process_team_page(url):
 
 # https://www.whoscored.com/Teams/65/Show/Spain-Barcelona
 # browser = webdriver.Chrome()
-process_team_page('https://www.whoscored.com/Teams/560/Show/Russia-Zenit-St-Petersburg')
+# process_team_page('https://www.whoscored.com/Teams/40/Show/Germany-Arminia-Bielefeld')

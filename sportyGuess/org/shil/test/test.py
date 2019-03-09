@@ -1,9 +1,22 @@
 import mysql.connector
+import time
 from org.shil.db import team_statistics_temp
 from org.shil.entity.match_fixture_entity import match_fixture_entity
 from org.shil import utils
 from datetime import datetime
 import json
+
+
+print(datetime.now())
+
+"""
+
+a = time.time()
+time.sleep(4)
+b = time.time()
+
+print(b-a)
+
 
 
 errors = []
@@ -15,7 +28,7 @@ except Exception as e:
 print(errors)
 
 
-"""
+
 
 print(float('4.55'))
 

@@ -1,8 +1,8 @@
 import MySQLdb
 from datetime import datetime
 
-sleepMin = 8
-sleepMax = 16
+sleepMin = 5
+sleepMax = 10
 TeamMark = 'Teams/'
 PlayerMark = 'Players/'
 MatchMark = 'Matches/'

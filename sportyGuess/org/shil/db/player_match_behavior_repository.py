@@ -3,7 +3,7 @@ from org.shil import utils
 def insert_player_match_behavior(match_id,player_id,player_name,mins,rating_in_this_match,sdate):
 	
 	if query_player_match_behavior(match_id, player_id) is not None:
-		print(str(match_id) + " " + player_id + " behavior already exist, no need insert")
+		print("match_id:"+match_id + " player_id:" + player_id + " behavior already exist, no need insert")
 		return
 	
 	insert_sql = "\
@@ -42,7 +42,6 @@ def query_player_match_behavior(match_id,player_id):
 	if one_record is not None :
 		return one_record[0]
 	else:
-		print('None')
 		return None
 
 # print(query_player_match_behavior(232, 2332))
