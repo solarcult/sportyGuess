@@ -30,6 +30,7 @@ CREATE TABLE `match_fixtures` (
 
 CREATE TABLE `match_previews` (
   `match_id` int(11) NOT NULL,
+  `date` date NOT NULL,
   `home_team_id` int(11) NOT NULL,
   `home_team_name` varchar(45) NOT NULL,
   `home_goals` int(11) NOT NULL,

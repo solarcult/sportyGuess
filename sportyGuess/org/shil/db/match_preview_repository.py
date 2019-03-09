@@ -18,6 +18,7 @@ def insert_match_preview(match_preview_entity):
     insert_sql = "\
     INSERT INTO match_previews ( \
         `match_id`,\
+        `date`,\
         `home_team_id`,\
         `home_team_name`,\
         `home_goals`,\
@@ -42,6 +43,7 @@ def insert_match_preview(match_preview_entity):
         `away_players`)\
     VALUES\
         (%(match_id)s,\
+        %(date)s,\
         %(home_team_id)s,\
         %(home_team_name)s,\
         %(home_goals)s,\

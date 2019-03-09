@@ -7,7 +7,11 @@ from datetime import datetime
 import json
 
 
-print(datetime.now())
+print(datetime.strptime('09-Mar-19','%d-%b-%y'))
+
+
+
+print(datetime.now().strftime('%d-%b-%y'))
 
 """
 

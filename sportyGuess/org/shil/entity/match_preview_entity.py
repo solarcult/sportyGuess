@@ -1,5 +1,6 @@
 class match_preview_entity:
     match_id = None
+    date = None
     home_team_id = None
     home_goals = None
     home_assists = None

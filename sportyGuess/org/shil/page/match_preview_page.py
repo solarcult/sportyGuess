@@ -5,6 +5,7 @@ from org.shil import utils
 from org.shil.entity.match_preview_entity import match_preview_entity
 from org.shil.db import match_preview_repository, fetch_url_repository
 import json
+from datetime import datetime
 
 # https://www.whoscored.com/Matches/1316424/Preview
 
@@ -26,6 +27,11 @@ def process_match_preview(url):
     mpe = match_preview_entity()
     errors=[]
     mpe.match_id = utils.find_match_id_from_matchurl(url)
+    
+    wsdate = browser.find_element_by_id('match-header').find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[1].find_elements_by_tag_name('div')[2].find_elements_by_tag_name('dd')[1].text
+    sdate = wsdate.split(',')[1].strip()
+    mpe.date = datetime.strptime(sdate,'%d-%b-%y')
+    
     header = browser.find_element_by_class_name('pitch-formation-header')
     homet = header.find_element_by_class_name('home')
     homea = homet.find_element_by_tag_name('a')
@@ -109,7 +115,7 @@ def process_match_preview(url):
 #     print(spans[3].text) #Tackles pg
     mpe.away_tackles_pg = spans[4].text.split(" ")[0]
     
-    print("missing players part")
+#     print("missing players part")
     missing_players = browser.find_element_by_id('missing-players')
     home_missing = missing_players.find_element_by_class_name('home')
     
@@ -163,3 +169,4 @@ def process_match_preview(url):
 # 'https://www.whoscored.com/Matches/1284927/Preview/England-Premier-League-2018-2019-Chelsea-Tottenham'
 
 # process_match_preview('https://www.whoscored.com/Matches/1364706/Preview/Europe-UEFA-Europa-League-2018-2019-Chelsea-Dynamo-Kyiv')
+# process_match_preview('https://www.whoscored.com/Matches/1284991/Preview/England-Premier-League-2018-2019-Cardiff-West-Ham')
