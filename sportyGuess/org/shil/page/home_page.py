@@ -11,6 +11,10 @@ import random
 from org.shil import utils
 from org.shil.db import fetch_url_repository
 
+'''
+get all tournament in home page ,one of entrance of this data starter
+'''
+
 browser = webdriver.Chrome()
 
 url = 'https://www.whoscored.com/'

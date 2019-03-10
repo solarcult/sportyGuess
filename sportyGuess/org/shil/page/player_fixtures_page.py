@@ -37,12 +37,6 @@ def process_player_fixtures(url):
             mins = tds[7].text.strip('\'')
             rating_in_this_match = utils.getStr(tds[8].text)
             
-#             match_id = match_fixtures_repository.query_match_id(home_team_id, away_team_id, sdate)
-#             if(match_id is None):
-#                 print("htid: "+ home_team_id+ "atid: " +away_team_id +"sd: " + sdate +" is missing.")
-#                 errors.append("htid: "+ home_team_id+ " atid: " +away_team_id +" sdate: " + sdate +" is missing.")
-#                 continue
-            
             player_match_behavior_repository.insert_player_match_behavior(match_id, player_id, player_name, mins, rating_in_this_match, sdate)
 
         except Exception as e:

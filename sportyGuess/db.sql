@@ -6,10 +6,11 @@ CREATE TABLE `fetch_url` (
   `status` varchar(45) NOT NULL COMMENT 'todo,done,something_blank_or_issue',
   `params_json` varchar(255) NOT NULL,
   `sdate` varchar(45) NOT NULL,
-  `error_records` varchar(511) DEFAULT NULL,
+  `error_records` varchar(4095) DEFAULT NULL,
+  `priority` int(11) NOT NULL DEFAULT '10',
   PRIMARY KEY (`id`),
   UNIQUE KEY `onlyone` (`url`,`sdate`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `match_fixtures` (
   `match_id` bigint(20) NOT NULL COMMENT 'same as whoscored matches id',

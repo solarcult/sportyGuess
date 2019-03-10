@@ -1,14 +1,17 @@
 import time
 import random
-# from org.shil import team_fixtures_page
 from org.shil import utils
 from selenium import webdriver
 from org.shil.db import team_statistics_repository, squad_statistics_repository,\
 	fetch_url_repository
 
+'''
+run this file after : upcoming_livescores_page for tonight match or home_page for all data 
+'''
+
 # https://www.whoscored.com/Teams/65/Show/Spain-Barcelona
 
-def process_team_page(url):
+def process_team_page(url,priority):
 	
 	print('process_team_page : '+url)
 	
@@ -21,16 +24,17 @@ def process_team_page(url):
 	team_id = utils.find_team_id_from_teamurl(url)
 	team_name = browser.find_element_by_class_name('team-header-name').text
 	
-	print("Record Team " + team_name +" fixtures")
-	try:
-		fixtures_but = browser.find_element_by_id('sub-navigation').find_element_by_link_text("Fixtures")
-		fixtures_url = fixtures_but.get_attribute('href')
-		fetch_url_repository.insert_fetch_url(fixtures_url, fetch_url_repository.type_TeamFixtures, fixtures_url)
-	except Exception as e:
-		print(team_name +" fixture has error.")
-		print(e)
-		errors.append(team_name +" fixture:")
-		errors.append(str(e))
+	if priority == fetch_url_repository.priority_Normal:
+		print("Record Team " + team_name +" fixtures")
+		try:
+			fixtures_but = browser.find_element_by_id('sub-navigation').find_element_by_link_text("Fixtures")
+			fixtures_url = fixtures_but.get_attribute('href')
+			fetch_url_repository.insert_fetch_url(fixtures_url, fetch_url_repository.type_TeamFixtures, fixtures_url)
+		except Exception as e:
+			print(team_name +" fixture has error.")
+			print(e)
+			errors.append(team_name +" fixture:")
+			errors.append(str(e))
 	
 	print("Team Statistics " + team_name)
 	print("Summary - Overall")
@@ -351,9 +355,10 @@ def process_team_page(url):
 				rating = utils.getStr(tds[15].text)
 				
 				squad_statistics_repository.insert_squad_statistics_summary(tournament,team_id, team_statistics_repository.view_Overall, player_id, player_name, rating, cm, apps, mins, goals, assists, shots_pg, apass, aerials_won, man_ot_match)
-				print('Record Player ' + player_name +' Fixtures')
-				player_fixtures_url = 'https://www.whoscored.com/Players/'+player_id+'/Fixtures'
-				fetch_url_repository.insert_fetch_url(player_fixtures_url, fetch_url_repository.type_PlayerFixtures, player_fixtures_url)
+				if priority == fetch_url_repository.priority_Normal:
+					print('Record Player ' + player_name +' Fixtures')
+					player_fixtures_url = 'https://www.whoscored.com/Players/'+player_id+'/Fixtures'
+					fetch_url_repository.insert_fetch_url(player_fixtures_url, fetch_url_repository.type_PlayerFixtures, player_fixtures_url)
 		except Exception as e:
 			print("Team Squad " + tournament + " Overall has error!")
 			print(e)

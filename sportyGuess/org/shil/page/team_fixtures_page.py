@@ -7,7 +7,7 @@ from org.shil.db import match_fixtures_repository, fetch_url_repository
 
 # https://www.whoscored.com/Teams/65/Fixtures/Spain-Barcelona
 
-def process_team_fixtures(url):
+def process_team_fixtures(url,priority):
     print('process_team_fixtures : ' + url)
     browser = webdriver.Chrome()
     browser.get(url)
@@ -61,9 +61,10 @@ def process_team_fixtures(url):
     
     browser.quit()
     
-    for matchid in matchids:
-        preview_link = 'https://www.whoscored.com/Matches/'+matchid+'/Preview'
-        fetch_url_repository.insert_fetch_url(preview_link, fetch_url_repository.type_MatchPreview, preview_link)
+    if priority == fetch_url_repository.priority_Normal :
+        for matchid in matchids:
+            preview_link = 'https://www.whoscored.com/Matches/'+matchid+'/Preview'
+            fetch_url_repository.insert_fetch_url(preview_link, fetch_url_repository.type_MatchPreview, preview_link)
     
     fetch_url_repository.update_last_record_of_url_status(url, errors)
     

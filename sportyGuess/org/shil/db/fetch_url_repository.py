@@ -12,6 +12,9 @@ status_TODO = 'TODO'
 status_Done = 'Done'
 status_SomethingBlankOrIssue = 'Something_blank_or_issue'
 
+priority_High = 5
+priority_Normal = 10
+
 '''
 只有当今天没有记录 并且 没有相同的TODO url，才进行新的待处理数据插入
 '''
@@ -38,7 +41,31 @@ def should_be_insert(exists):
     
     return True
 
-def insert_fetch_url(url,atype,params):
+def update_url_priority(url,priority):
+    exists = query_fetch_url_all_records(url)
+    if exists is not None:
+        sdate = utils.date2sdate(datetime.now())
+        for exist in exists:
+            if(exist[1] == status_TODO):
+                #priority
+                if(exist[2] > priority):
+                    update_sql = " UPDATE fetch_url SET priority = %s WHERE id = %s "
+                    cnx = utils.get_mysql_connector()
+                    cursor = cnx.cursor()
+                    #id
+                    cursor.execute(update_sql,(priority,exist[3]))
+                    nid = cursor.lastrowid
+                    cnx.commit()
+                    cursor.close()
+                    cnx.close()
+                    print('url priority has been updated:'+url)
+                    return nid
+                else:
+                    print('fetch url priority is higher , no need update')
+                    return -1
+    return -1
+
+def insert_fetch_url(url,atype,params,priority=priority_Normal):
     sdate = utils.date2sdate(datetime.now())
     if not should_be_insert(query_fetch_url_all_records(url)):
         print(atype + "_" + url +" fetch url already exist, no need insert")
@@ -51,11 +78,12 @@ def insert_fetch_url(url,atype,params):
         `date`,\
         `status`,\
         `params_json`,\
-        `sdate`)\
+        `sdate`,\
+        `priority`)\
     VALUES \
-        (%s,%s,%s,%s,%s,%s) "
+        (%s,%s,%s,%s,%s,%s,%s) "
 
-    values = (url,atype,datetime.now(),status_TODO,json.dumps(params),sdate)
+    values = (url,atype,datetime.now(),status_TODO,json.dumps(params),sdate,priority)
     
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
@@ -89,7 +117,7 @@ def update_last_record_of_url_status(url,errors):
     return nid
 
 def query_fetch_url_all_records(url):
-    query_last_date = "SELECT sdate,status FROM `fetch_url` where url = %s "
+    query_last_date = "SELECT sdate,status,priority,id FROM `fetch_url` where url = %s "
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
     cursor.execute(query_last_date,(url,))
@@ -108,7 +136,7 @@ def query_fetch_url_last_record_sdate(url):
         return None
     
 def query_todo_fetch_urls():
-    query_todo_sql ="SELECT type, params_json FROM fetch_url WHERE status = 'TODO' order by id"
+    query_todo_sql ="SELECT type, params_json,priority, id FROM fetch_url WHERE status = 'TODO' order by priority"
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
     cursor.execute(query_todo_sql)
@@ -122,4 +150,9 @@ def query_todo_fetch_urls():
 # print(query_fetch_url_last_record_sdate("12345"))
 # errors = []
 # update_last_record_of_url_status("12345", errors)
+# xs = query_todo_fetch_urls()
+# for i in range(0,20):
+#     print(xs[i])
 # print(query_todo_fetch_urls())
+
+# print(query_fetch_url_all_records('https://www.whoscored.com/Teams/9649/Show/Greece-Apollon-Smirnis'))
