@@ -11,7 +11,7 @@ run this file after : upcoming_livescores_page for tonight match or home_page fo
 
 # https://www.whoscored.com/Teams/65/Show/Spain-Barcelona
 
-def process_team_page(url,priority):
+def process_team_page(url,priority=fetch_url_repository.priority_Normal):
 	
 	print('process_team_page : '+url)
 	
