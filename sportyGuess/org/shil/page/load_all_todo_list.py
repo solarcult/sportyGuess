@@ -17,17 +17,24 @@ def process_page_detail(atype,params,priority):
             team_fixtures_page.process_team_fixtures(params,priority)
             return
         if atype == fetch_url_repository.type_PlayerFixtures:
-            player_fixtures_page.process_player_fixtures(params,priority)
+            player_fixtures_page.process_player_fixtures(params)
             return
         if atype == fetch_url_repository.type_MatchPreview:
-            match_preview_page.process_match_preview(params,priority)
+            match_preview_page.process_match_preview(params)
             return
         print('where fuck am i ?')
         
     except Exception as e:
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print('sorry something has problem maybe network is too slow to load the content , please try next url : ')
         print(e)
-
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        errors = []
+        errors.append(str(e))
+        if atype == fetch_url_repository.type_Tournament:
+            fetch_url_repository.mark_url_errors(params[0], errors)
+        else:
+            fetch_url_repository.mark_url_errors(params, errors)
 
 '''
 
@@ -47,5 +54,11 @@ while xs is not None:
     xs = fetch_url_repository.query_todo_fetch_urls()
     
     
+es = fetch_url_repository.query_error_fetch_urls()
 
+for e in es:
+    starttime = time.time()
+    process_page_detail(x[0], json.loads(str(x[1])),x[2])
+    print(str(datetime.now()) + " done with seconds :" + str(time.time()-starttime))
+    
 

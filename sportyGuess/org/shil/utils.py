@@ -1,6 +1,8 @@
 import MySQLdb
 from datetime import datetime
 
+browser_implicitly_wait = 45
+
 sleepMin = 5
 sleepMax = 10
 TeamMark = 'Teams/'

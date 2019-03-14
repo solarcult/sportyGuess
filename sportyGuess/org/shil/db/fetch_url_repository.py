@@ -11,6 +11,7 @@ type_MatchPreview = 'match_preview'
 status_TODO = 'TODO'
 status_Done = 'Done'
 status_SomethingBlankOrIssue = 'Something_blank_or_issue'
+status_Error = 'Error'
 
 priority_High = 5
 priority_Normal = 10
@@ -44,7 +45,6 @@ def should_be_insert(exists):
 def update_url_priority(url,priority):
     exists = query_fetch_url_all_records(url)
     if exists is not None:
-        sdate = utils.date2sdate(datetime.now())
         for exist in exists:
             if(exist[1] == status_TODO):
                 #priority
@@ -95,9 +95,27 @@ def insert_fetch_url(url,atype,params,priority=priority_Normal):
     cnx.close()
     return nid
 
+def mark_url_errors(url, errors):
+    sdate = query_fetch_url_last_TODO_record_sdate(url)
+    status = status_Error
+    
+    update_sql = " UPDATE fetch_url SET status = %s , error_records = %s , date = %s , sdate = %s  WHERE url = %s and sdate = %s "
+    
+    values = (status,json.dumps(errors),datetime.now(),utils.date2sdate(datetime.now()),url,sdate)
+    
+    cnx = utils.get_mysql_connector()
+    cursor = cnx.cursor()
+    cursor.execute(update_sql,values)
+    nid = cursor.lastrowid
+    
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    return nid
+
 def update_last_record_of_url_status(url,errors):
     
-    sdate = query_fetch_url_last_record_sdate(url)
+    sdate = query_fetch_url_last_TODO_record_sdate(url)
     status = status_Done
     if len(errors) > 0 :
         status = status_SomethingBlankOrIssue
@@ -124,7 +142,7 @@ def query_fetch_url_all_records(url):
     results = cursor.fetchall()
     return results
 
-def query_fetch_url_last_record_sdate(url):
+def query_fetch_url_last_TODO_record_sdate(url):
     query_last_date = "SELECT sdate FROM `fetch_url` where url = %s and status = 'TODO' order by date desc limit 1"
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
@@ -137,6 +155,17 @@ def query_fetch_url_last_record_sdate(url):
     
 def query_todo_fetch_urls():
     query_todo_sql ="SELECT type, params_json,priority, id FROM fetch_url WHERE status = 'TODO' order by priority"
+    cnx = utils.get_mysql_connector()
+    cursor = cnx.cursor()
+    cursor.execute(query_todo_sql)
+    fetches = cursor.fetchall()
+    if fetches is not None :
+        return fetches    
+    else:
+        return None
+    
+def query_error_fetch_urls():
+    query_todo_sql ="SELECT type, params_json,priority, id FROM fetch_url WHERE status = 'Error' order by priority"
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
     cursor.execute(query_todo_sql)
