@@ -11,7 +11,7 @@ type_MatchPreview = 'match_preview'
 status_TODO = 'TODO'
 status_Done = 'Done'
 status_SomethingBlankOrIssue = 'Something_blank_or_issue'
-status_Error = 'Error'
+status_Error = 'Error' #可能网络问题，可以再试一次
 
 priority_High = 5
 priority_Normal = 10
@@ -114,25 +114,31 @@ def mark_url_errors(url, errors):
     return nid
 
 def update_last_record_of_url_status(url,errors):
-    
-    sdate = query_fetch_url_last_TODO_record_sdate(url)
-    status = status_Done
-    if len(errors) > 0 :
-        status = status_SomethingBlankOrIssue
-    
-    update_sql = " UPDATE fetch_url SET status = %s , error_records = %s , date = %s , sdate = %s  WHERE url = %s and sdate = %s "
-    
-    values = (status,json.dumps(errors),datetime.now(),utils.date2sdate(datetime.now()),url,sdate)
-    
-    cnx = utils.get_mysql_connector()
-    cursor = cnx.cursor()
-    cursor.execute(update_sql,values)
-    nid = cursor.lastrowid
-    
-    cnx.commit()
-    cursor.close()
-    cnx.close()
-    return nid
+    try:
+        sdate = query_fetch_url_last_TODO_record_sdate(url)
+        if sdate is None :
+    #         may be from last error fix process
+            sdate = query_fetch_url_last_Error_record_sdate(url)[0]
+        status = status_Done
+        if len(errors) > 0 :
+            status = status_SomethingBlankOrIssue
+        
+        update_sql = " UPDATE fetch_url SET status = %s , error_records = %s , date = %s , sdate = %s  WHERE url = %s and sdate = %s "
+        
+        values = (status,json.dumps(errors),datetime.now(),utils.date2sdate(datetime.now()),url,sdate)
+        
+        cnx = utils.get_mysql_connector()
+        cursor = cnx.cursor()
+        cursor.execute(update_sql,values)
+        nid = cursor.lastrowid
+        cnx.commit()
+    except:
+        cnx.rollback()
+        
+    finally:
+        cursor.close()
+        cnx.close()
+        return nid
 
 def query_fetch_url_all_records(url):
     query_last_date = "SELECT sdate,status,priority,id FROM `fetch_url` where url = %s "
@@ -153,7 +159,19 @@ def query_fetch_url_last_TODO_record_sdate(url):
     else:
         return None
     
+def query_fetch_url_last_Error_record_sdate(url):
+    query_last_date = "SELECT sdate , id FROM `fetch_url` where url = %s and status = 'Error' order by date desc limit 1"
+    cnx = utils.get_mysql_connector()
+    cursor = cnx.cursor()
+    cursor.execute(query_last_date,(url,))
+    sdates = cursor.fetchone()
+    if sdates is not None :
+        return sdates
+    else:
+        return None
+    
 def query_todo_fetch_urls():
+    print('query_todo_fetch_urls from DB ')
     query_todo_sql ="SELECT type, params_json,priority, id FROM fetch_url WHERE status = 'TODO' order by priority"
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
@@ -165,6 +183,7 @@ def query_todo_fetch_urls():
         return None
     
 def query_error_fetch_urls():
+    print('query_error_fetch_urls from DB ')
     query_todo_sql ="SELECT type, params_json,priority, id FROM fetch_url WHERE status = 'Error' order by priority"
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
@@ -174,11 +193,23 @@ def query_error_fetch_urls():
         return fetches    
     else:
         return None
+
+def delete_id(id):
+    print('delete Error record , id :' + str(id))
+    delete_sql = "DELETE FROM fetch_url WHERE id = %s"
+    cnx = utils.get_mysql_connector()
+    cursor = cnx.cursor()
+    cursor.execute(delete_sql,(id,))
+    cnx.commit()
+    cursor.close()
+    cnx.close()
     
+# print(delete_id(2))
 # insert_fetch_url("12345", type_TeamHome, "goodluck")
-# print(query_fetch_url_last_record_sdate("12345"))
+# print(query_fetch_url_last_TODO_record_sdate("12345"))
+# print(query_fetch_url_last_Error_record_sdate("ttyuu"))
 # errors = []
-# update_last_record_of_url_status("12345", errors)
+# print(update_last_record_of_url_status("12345", errors))
 # xs = query_todo_fetch_urls()
 # for i in range(0,20):
 #     print(xs[i])
