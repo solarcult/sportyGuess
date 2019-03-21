@@ -67,21 +67,21 @@ try:
     for key in tournament_maps.keys() :
         print(key+" : "+ tournament_maps[key])
         params = [tournament_maps[key],key]
-#         if(fetch_url_repository.update_url_priority(tournament_maps[key], fetch_url_repository.priority_High) < 0 ):
-#             fetch_url_repository.insert_fetch_url(tournament_maps[key], fetch_url_repository.type_Tournament, params,fetch_url_repository.priority_High)
+        if(fetch_url_repository.update_url_priority(tournament_maps[key], fetch_url_repository.priority_High) < 0 ):
+            fetch_url_repository.insert_fetch_url(tournament_maps[key], fetch_url_repository.type_Tournament, params,fetch_url_repository.priority_High)
     
     print('start insert teams link:')
     for team_link in team_links:
         print(team_link)
-#         if(fetch_url_repository.update_url_priority(team_link, fetch_url_repository.priority_High) < 0 ):
-#             fetch_url_repository.insert_fetch_url(team_link, fetch_url_repository.type_TeamHome, team_link, fetch_url_repository.priority_High)
+        if(fetch_url_repository.update_url_priority(team_link, fetch_url_repository.priority_High) < 0 ):
+            fetch_url_repository.insert_fetch_url(team_link, fetch_url_repository.type_TeamHome, team_link, fetch_url_repository.priority_High)
         
     print('start insert matches :')
     for match_id in match_ids:
         print(match_id)
         preview_match_url = 'https://www.whoscored.com/Matches/'+match_id+'/Preview'
-#         if(fetch_url_repository.update_url_priority(preview_match_url, fetch_url_repository.priority_High) < 0 ):
-#             fetch_url_repository.insert_fetch_url(preview_match_url, fetch_url_repository.type_MatchPreview, preview_match_url, fetch_url_repository.priority_High)
+        if(fetch_url_repository.update_url_priority(preview_match_url, fetch_url_repository.priority_High) < 0 ):
+            fetch_url_repository.insert_fetch_url(preview_match_url, fetch_url_repository.type_MatchPreview, preview_match_url, fetch_url_repository.priority_High)
 
 finally:
     browser.quit()
