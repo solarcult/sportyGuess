@@ -36,12 +36,12 @@ try:
                 try:
                     preview = tds[9].find_elements_by_tag_name('a')[0].text
                     if(utils.getStr(preview) == 'Stream'):
-                        print('Found Steam here , Today Match Stop , Start recording: ')
-                        break
+                        print('Found Steam here , Ignore .')
+                        continue
                 except Exception as e:
-                    print('Today Match Stop Here , Start recording: ')
+                    print('Found Exception here , Ignore .')
                     print(e)
-                    break
+                    continue
                 home_team_link = tds[5].find_element_by_tag_name('a').get_attribute('href')
                 team_links.append(home_team_link)
     #             fetch_url_repository.insert_fetch_url(home_team_link, fetch_url_repository.type_TeamHome, home_team_link, fetch_url_repository.priority_High)
@@ -58,7 +58,8 @@ try:
                 break
             
         except Exception as e:
-            print(e)
+            print("e , bye")
+            pass
         
     print('start insert tournaments:')
     for key in tournament_maps.keys() :
