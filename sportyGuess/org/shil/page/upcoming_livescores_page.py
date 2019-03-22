@@ -32,18 +32,14 @@ try:
                 try:
 #                     print(tds[9].text)
                     if len(tds[9].text) < 1:
-                        print('1. Nothing here bye')
+#                         print('1. Blank here bye')
                         continue
                     a = tds[9].find_elements_by_tag_name('a')
-#                     print(len(a))
-                    if(len(a)<2):
-                        print('2. no link here')
-                        continue
                     preview = a[0].text
                     print(preview)
-                    if(utils.getStr(preview) != 'Preview' 
-                       and utils.getStr(preview) !='Match Report'):
-                        print('3. Not Found Preview or Match Report here , Ignore .')
+                    if(utils.getStr(preview).find('Preview') == -1
+                       and utils.getStr(preview).find('Match Report') == -1 ):
+#                         print('3. Not Found Preview or Match Report here , Ignore .')
                         continue
                 except Exception as e:
                     print('Found Exception here , Ignore .')
@@ -55,6 +51,7 @@ try:
                 match_ids.append(match_id)
                 away_team_link = tds[7].find_element_by_tag_name('a').get_attribute('href')
                 team_links.append(away_team_link)
+                print('* Found the match:'+match_id)
             else:
                 print('NNNNNNNNNNNNNNNNNNNNNNNNNever come here!')
                 break
