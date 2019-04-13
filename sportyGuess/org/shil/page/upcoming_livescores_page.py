@@ -38,7 +38,7 @@ try:
                     preview = a[0].text
                     print(preview)
                     if(utils.getStr(preview).find('Preview') == -1
-                       and utils.getStr(preview).find('Match Report') == -1 ):
+                       and utils.getStr(preview).find('Match') == -1 ):
 #                         print('3. Not Found Preview or Match Report here , Ignore .')
                         continue
                 except Exception as e:
@@ -60,18 +60,19 @@ try:
             print("tr, e , bye")
             pass
         
+
+    print('start insert teams link:')
+    for team_link in team_links:
+        print(team_link)
+        if(fetch_url_repository.update_url_priority(team_link, fetch_url_repository.priority_High) < 0 ):
+            fetch_url_repository.insert_fetch_url(team_link, fetch_url_repository.type_TeamHome, team_link, fetch_url_repository.priority_High)
+
     print('start insert tournaments:')
     for key in tournament_maps.keys() :
         print(key+" : "+ tournament_maps[key])
         params = [tournament_maps[key],key]
         if(fetch_url_repository.update_url_priority(tournament_maps[key], fetch_url_repository.priority_High) < 0 ):
             fetch_url_repository.insert_fetch_url(tournament_maps[key], fetch_url_repository.type_Tournament, params,fetch_url_repository.priority_High)
-    
-    print('start insert teams link:')
-    for team_link in team_links:
-        print(team_link)
-        if(fetch_url_repository.update_url_priority(team_link, fetch_url_repository.priority_High) < 0 ):
-            fetch_url_repository.insert_fetch_url(team_link, fetch_url_repository.type_TeamHome, team_link, fetch_url_repository.priority_High)
         
     print('start insert matches :')
     for match_id in match_ids:
