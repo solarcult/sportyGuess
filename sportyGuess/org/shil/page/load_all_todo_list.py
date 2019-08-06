@@ -2,8 +2,7 @@ import json,time
 from datetime import datetime
 from org.shil import utils
 from org.shil.db import fetch_url_repository
-from org.shil.page import tournament_page, team_page, team_fixtures_page,\
-    player_fixtures_page, match_preview_page
+from org.shil.page import tournament_page, team_page, team_fixtures_page, player_fixtures_page, match_preview_page
 
 
 def process_page_detail(atype,params,priority,process='GoOd'):

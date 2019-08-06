@@ -25,11 +25,19 @@ def process_match_preview(url):
         browser.get(url)
         time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
         
+        browser.find_element_by_class_name('qc-cmp-button').click()
+        
+        time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+        
         mpe = match_preview_entity()
         errors=[]
         mpe.match_id = utils.find_match_id_from_matchurl(url)
     
         wsdate = browser.find_element_by_id('match-header').find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[1].find_elements_by_tag_name('div')[2].find_elements_by_tag_name('dd')[1].text
+#         print("here")
+#         print(wsdate+".")
+        sps = wsdate.split(',')
+#         print(len(sps))
         sdate = wsdate.split(',')[1].strip()
         mpe.date = datetime.strptime(sdate,'%d-%b-%y')
         
@@ -91,6 +99,7 @@ def process_match_preview(url):
     
         stats = stat_groups[1].find_elements_by_class_name('stat')
         spans = stats[0].find_elements_by_tag_name('span')
+#         print(spans[1].text)
         mpe.home_average_ratings = spans[1].text.split(" ")[1]
     #     print(spans[3].text) # Average Ratings
         mpe.away_average_ratings = spans[4].text.split(" ")[0]
@@ -176,6 +185,6 @@ def process_match_preview(url):
 
 # 'https://www.whoscored.com/Matches/1316424/Preview'
 # 'https://www.whoscored.com/Matches/1284927/Preview/England-Premier-League-2018-2019-Chelsea-Tottenham'
-
+# process_match_preview('https://www.whoscored.com/Matches/1316736/Preview')
 # process_match_preview('https://www.whoscored.com/Matches/1364706/Preview/Europe-UEFA-Europa-League-2018-2019-Chelsea-Dynamo-Kyiv')
 # process_match_preview('https://www.whoscored.com/Matches/1284991/Preview/England-Premier-League-2018-2019-Cardiff-West-Ham')

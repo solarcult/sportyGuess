@@ -20,10 +20,16 @@ def process_team_page(url,priority=fetch_url_repository.priority_Normal):
 		browser.get(url);
 		time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 		
+		browser.find_element_by_class_name('qc-cmp-button').click()
+		
+		time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+		
 		errors = []
 		
 		team_id = utils.find_team_id_from_teamurl(url)
+		print(team_id)
 		team_name = browser.find_element_by_class_name('team-header-name').text
+		print(team_name)
 		
 		if priority == fetch_url_repository.priority_Normal:
 			print("Record Team " + team_name +" fixtures")
@@ -44,17 +50,29 @@ def process_team_page(url,priority=fetch_url_repository.priority_Normal):
 			trs = ttss.find_element_by_id("top-team-stats-summary-content")
 			elements = trs.find_elements_by_tag_name("tr")
 			for element in elements:
-				tournament = (element.find_elements_by_css_selector("td")[0].text)
-				apps = (element.find_elements_by_css_selector("td")[1].text)
-				goals = (element.find_elements_by_css_selector("td")[2].text)
-				shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
-		# 	    discipline = (element.find_elements_by_css_selector("td")[4].text)
-				possession = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
-				apass = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
-				aerials_won = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
-				rating = utils.getStr(element.find_elements_by_css_selector("td")[8].text)
+				try:
+					tournament = (element.find_elements_by_css_selector("td")[0].text)
+# 					print(tournament)
+					apps = (element.find_elements_by_css_selector("td")[1].text)
+# 					print(apps)
+					goals = (element.find_elements_by_css_selector("td")[2].text)
+# 					print(goals)
+					shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
+# 					print(shots_pg)
+			# 	    discipline = (element.find_elements_by_css_selector("td")[4].text)
+					possession = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
+# 					print(possession)
+					apass = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+# 					print(apass)
+					aerials_won = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
+# 					print(aerials_won)
+					rating = utils.getStr(element.find_elements_by_css_selector("td")[8].text)
+# 					print(rating)
 				
-				team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, goals, shots_pg, possession, apass, aerials_won)
+					team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, goals, shots_pg, possession, apass, aerials_won)
+				except Exception as e:
+					print(" for in name: "+tournament +" has error.")
+					print(e)
 		except Exception as e:
 			print("Summary - Overall is a error ")
 			print(e)
@@ -441,4 +459,4 @@ def process_team_page(url,priority=fetch_url_repository.priority_Normal):
 
 # https://www.whoscored.com/Teams/65/Show/Spain-Barcelona
 # browser = webdriver.Chrome()
-# process_team_page('https://www.whoscored.com/Teams/40/Show/Germany-Arminia-Bielefeld')
+# process_team_page('https://www.whoscored.com/Teams/65/Show/Spain-Barcelona')

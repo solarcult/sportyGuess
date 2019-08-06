@@ -15,6 +15,10 @@ def process_team_fixtures(url,priority=fetch_url_repository.priority_Normal):
         browser.get(url)
         time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
         
+        browser.find_element_by_class_name('qc-cmp-button').click()
+        
+        time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+        
         fixtures = browser.find_element_by_id('team-fixtures')
         elements = fixtures.find_elements_by_tag_name("tr")
         matchids = []

@@ -114,6 +114,9 @@ def mark_url_errors(url, errors):
     return nid
 
 def update_last_record_of_url_status(url,errors):
+    cnx = utils.get_mysql_connector()
+    cursor = cnx.cursor()
+    nid = 0
     try:
         sdate = query_fetch_url_last_TODO_record_sdate(url)
         if sdate is None :
@@ -127,8 +130,7 @@ def update_last_record_of_url_status(url,errors):
         
         values = (status,json.dumps(errors),datetime.now(),utils.date2sdate(datetime.now()),url,sdate)
         
-        cnx = utils.get_mysql_connector()
-        cursor = cnx.cursor()
+        
         cursor.execute(update_sql,values)
         nid = cursor.lastrowid
         cnx.commit()

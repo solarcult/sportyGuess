@@ -16,6 +16,10 @@ def process_player_fixtures(url):
         browser.get(url)
         time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
         
+        browser.find_element_by_class_name('qc-cmp-button').click()
+        
+        time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+        
         errors=[]
         
         player_id = utils.find_player_id_from_playerurl(url)
@@ -30,6 +34,7 @@ def process_player_fixtures(url):
         #         tourament_name = a.get_attribute('title')
         #         tourament_link = a.get_attribute('href')
                 sdate = tds[1].text #26-07-2018
+                print(sdate)
         #         home_team_name = tds[2].find_element_by_tag_name('a').text
                 home_team_id = utils.find_team_id_from_teamurl(tds[2].find_element_by_tag_name('a').get_attribute('href'))
     #             goalsvs = tds[3].find_element_by_tag_name('a').text

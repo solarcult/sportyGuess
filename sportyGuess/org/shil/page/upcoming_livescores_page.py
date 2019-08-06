@@ -1,3 +1,5 @@
+import time
+import random
 from org.shil import utils
 from selenium import webdriver
 from org.shil.db import fetch_url_repository

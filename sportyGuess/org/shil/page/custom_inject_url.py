@@ -1,6 +1,6 @@
 
 '''
-Created on 2019-Feb-27
+Created on 2019-July-22
 
 @author: shil
 
@@ -23,16 +23,15 @@ try:
     browser.get(url)
     time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
     
-    browser.find_element_by_class_name('qc-cmp-button').click()
-
-    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
-    
     touraments = {}
     
     uls = browser.find_element_by_id('popular-tournaments-list')
     lis = uls.find_elements_by_tag_name('li')
     for li in lis :
         tourament_name = li.text
+        print(tourament_name)
+        if(tourament_name.find("La") == -1):
+            continue;
         link = li.find_element_by_tag_name('a').get_attribute('href')
         touraments[tourament_name] = link
     
