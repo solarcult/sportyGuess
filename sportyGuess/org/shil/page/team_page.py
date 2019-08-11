@@ -459,4 +459,4 @@ def process_team_page(url,priority=fetch_url_repository.priority_Normal):
 
 # https://www.whoscored.com/Teams/65/Show/Spain-Barcelona
 # browser = webdriver.Chrome()
-process_team_page('https://www.whoscored.com/Teams/65/Show/Spain-Barcelona')
+# process_team_page('https://www.whoscored.com/Teams/65/Show/Spain-Barcelona')
