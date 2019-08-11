@@ -9,7 +9,7 @@ get upcomming matches run this file everyday to fetch ontime preview match data 
 '''
 
 try:
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(executable_path='C:/chromedriver/chromedriver.exe')
     browser.implicitly_wait(utils.browser_implicitly_wait)
     browser.get('https://www.whoscored.com/LiveScores');
     

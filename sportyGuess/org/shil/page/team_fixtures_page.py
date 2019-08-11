@@ -10,7 +10,7 @@ from org.shil.db import match_fixtures_repository, fetch_url_repository
 def process_team_fixtures(url,priority=fetch_url_repository.priority_Normal):
     print('process_team_fixtures : ' + url)
     try:
-        browser = webdriver.Chrome()
+        browser = webdriver.Chrome(executable_path='C:/chromedriver/chromedriver.exe')
         browser.implicitly_wait(utils.browser_implicitly_wait)
         browser.get(url)
         time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))

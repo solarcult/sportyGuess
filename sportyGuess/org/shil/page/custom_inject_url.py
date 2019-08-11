@@ -17,7 +17,7 @@ get all tournament in home page ,one of entrance of this data starter
 
 
 try:
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(executable_path='C:/chromedriver/chromedriver.exe')
     browser.implicitly_wait(utils.browser_implicitly_wait)
     url = 'https://www.whoscored.com/'
     browser.get(url)
@@ -30,7 +30,7 @@ try:
     for li in lis :
         tourament_name = li.text
         print(tourament_name)
-        if(tourament_name.find("La") == -1):
+        if(tourament_name.find("La") != -1):
             continue;
         link = li.find_element_by_tag_name('a').get_attribute('href')
         touraments[tourament_name] = link
