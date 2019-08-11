@@ -30,7 +30,8 @@ try:
     for li in lis :
         tourament_name = li.text
         print(tourament_name)
-        if(tourament_name.find("La") != -1):
+#         过滤条件,非常重要,只取带有La的URL
+        if(tourament_name.find("La") == -1):
             continue;
         link = li.find_element_by_tag_name('a').get_attribute('href')
         touraments[tourament_name] = link
