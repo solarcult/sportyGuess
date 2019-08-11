@@ -3,7 +3,7 @@ import random
 from selenium import webdriver
 from org.shil import utils
 from org.shil.entity.match_fixture_entity import match_fixture_entity
-from org.shil.db import match_fixtures_repository, fetch_url_repository
+from org.shil.db import match_fixtures_repository, fetch_url_repository,match_preview_repository
 
 # https://www.whoscored.com/Teams/65/Fixtures/Spain-Barcelona
 
@@ -69,6 +69,11 @@ def process_team_fixtures(url,priority=fetch_url_repository.priority_Normal):
         
         if priority == fetch_url_repository.priority_Normal :
             for matchid in matchids:
+                exist = match_preview_repository.query_one_match_preview(matchid)
+                if exist is not None \
+                    and exist == int(matchid):
+                    print(matchid + " preview already exist, no need insert")
+                    continue
                 preview_link = 'https://www.whoscored.com/Matches/'+matchid+'/Preview'
                 fetch_url_repository.insert_fetch_url(preview_link, fetch_url_repository.type_MatchPreview, preview_link)
         
