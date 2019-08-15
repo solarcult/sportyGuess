@@ -20,7 +20,7 @@ def process_team_page(url,priority=fetch_url_repository.priority_Normal):
 		browser.get(url);
 		time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 		
-		browser.find_element_by_class_name('qc-cmp-button').click()
+		browser.find_element_by_id('qcCmpButtons').find_elements_by_tag_name('button')[1].click()
 		
 		time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 		
