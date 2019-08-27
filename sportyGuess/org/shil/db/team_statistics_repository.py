@@ -169,6 +169,16 @@ def query_team_statistics_last_record_data(tournament,team_id,atype,view):
     else:
         return None
 
+def query_team_statistic_last_record_data_before_date(tournament,team_id,atype,view,before_date):
+    query_last_data = "SELECT * FROM `team_statistics` where tournament = %s and team_id = %s and type = %s and view = %s and date <= %s order by date desc limit 1"
+    cnx = utils.get_mysql_connector()
+    cursor = cnx.cursor()
+    cursor.execute(query_last_data,(tournament,team_id,atype,view,before_date))
+    last_data = cursor.fetchone()
+    if last_data is not None :
+        return last_data
+    else:
+        return None
 
 # x = query_team_statistics_last_record_data('League Cup', 560, 'Summary', 'Overall')
 # print(x)

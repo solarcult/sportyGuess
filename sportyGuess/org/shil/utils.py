@@ -1,5 +1,6 @@
 import MySQLdb
 from datetime import datetime
+from _datetime import timedelta
 
 browser_implicitly_wait = 45
 
@@ -55,3 +56,7 @@ def sdate2date(sdate):
 def date2sdate(date):
     return date.strftime(sdate_format)
 
+
+def beforeXmonth(x):
+    d = x*30.5
+    return datetime.now() - timedelta(days=d)

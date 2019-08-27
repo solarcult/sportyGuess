@@ -110,4 +110,31 @@ def query_one_match_fixture_entity(match_id):
         return match_fixture
     else:
         return None
+
+def list_all_tournament_matches_since_qdate(tournament_name,query_date):
+    list_all_tournament_matches_since_qdate = "\
+    SELECT match_id, \
+        tournament,\
+        date,\
+        home_team_id,\
+        home_team_name,\
+        away_team_id,\
+        away_team_name,\
+        full_time_home_goals,\
+        full_time_away_goals,\
+        result,\
+        sdate\
+    FROM match_fixtures\
+    WHERE \
+        tournament = %s \
+        and date >= %s \
+        order by date desc" 
     
+    cnx = utils.get_mysql_connector()
+    cursor = cnx.cursor()
+    cursor.execute(list_all_tournament_matches_since_qdate,(tournament_name,query_date))
+    return cursor.fetchall()
+    
+# xs = list_all_tournament_matches_since_qdate('Serie A', utils.beforeXmonth(6))
+# for x in xs:
+#     print(x)

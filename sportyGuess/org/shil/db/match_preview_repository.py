@@ -7,6 +7,7 @@ Created on 2019-Mar-06 22:59
 
 from org.shil import utils
 from org.shil.entity.match_preview_entity import match_preview_entity
+import json
 
 def insert_match_preview(match_preview_entity):
     exist = query_one_match_preview(match_preview_entity.match_id)
@@ -78,13 +79,22 @@ def insert_match_preview(match_preview_entity):
     return nid
 
 def query_one_match_preview(match_id):
-    query_one_sql =" SELECT match_id FROM match_previews WHERE match_id = %s"
+    query_one_sql =" SELECT * FROM match_previews WHERE match_id = %s"
     
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
     cursor.execute(query_one_sql,(match_id,))
     one_record = cursor.fetchone()
     if one_record is not None :
-        return one_record[0]
+        return one_record
     else:
         return None
+
+print(query_one_match_preview(1281313)[21])
+print(query_one_match_preview(1281313)[20])
+h = json.loads(query_one_match_preview(1281313)[20])
+print(type(h))
+for o in h.keys():
+    print(o)
+    print(h[o])
+    print("----------------")

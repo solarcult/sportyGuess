@@ -71,7 +71,7 @@ def process_team_fixtures(url,priority=fetch_url_repository.priority_Normal):
             for matchid in matchids:
                 exist = match_preview_repository.query_one_match_preview(matchid)
                 if exist is not None \
-                    and exist == int(matchid):
+                    and exist[0] == int(matchid):
                     print(matchid + " preview already exist, no need insert")
                     continue
                 preview_link = 'https://www.whoscored.com/Matches/'+matchid+'/Preview'
