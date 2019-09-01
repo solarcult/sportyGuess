@@ -90,11 +90,11 @@ def query_one_match_preview(match_id):
     else:
         return None
 
-print(query_one_match_preview(1281313)[21])
-print(query_one_match_preview(1281313)[20])
-h = json.loads(query_one_match_preview(1281313)[20])
-print(type(h))
-for o in h.keys():
-    print(o)
-    print(h[o])
-    print("----------------")
+# print(query_one_match_preview(1281313)[21])
+# print(query_one_match_preview(1281313)[20])
+# h = json.loads(query_one_match_preview(1281313)[20])
+# print(type(h))
+# for o in h.keys():
+#     print(o)
+#     print(h[o])
+#     print("----------------")

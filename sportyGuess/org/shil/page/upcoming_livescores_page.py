@@ -13,6 +13,10 @@ try:
     browser.implicitly_wait(utils.browser_implicitly_wait)
     browser.get('https://www.whoscored.com/LiveScores');
     
+    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+    browser.find_element_by_id('qcCmpButtons').find_elements_by_tag_name('button')[1].click()
+    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+    
     livescores = browser.find_element_by_id('livescores')
     tbody = livescores.find_element_by_tag_name('tbody')
     trs = tbody.find_elements_by_tag_name('tr')
@@ -34,7 +38,7 @@ try:
                 try:
 #                     print(tds[9].text)
                     if len(tds[9].text) < 1:
-#                         print('1. Blank here bye')
+                        print(tds[9].text)
                         continue
                     a = tds[9].find_elements_by_tag_name('a')
                     preview = a[0].text

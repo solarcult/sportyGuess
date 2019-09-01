@@ -46,7 +46,8 @@ def process_tournament_page(url,tournament_name,priority=fetch_url_repository.pr
 					print("something wrong here!")
 					print(e)
 					errors.append(str(e))
-					
+			
+# 			如果时高等级的说明是从upcoming来的,不需要再更新每一个队伍的情况,比赛的队伍会专门插入一个连接去获取更新的	
 			if priority == fetch_url_repository.priority_Normal:		
 				for key in tournament_teams.keys() :
 					print(key+" : "+ tournament_teams[key])

@@ -170,7 +170,38 @@ def query_team_statistics_last_record_data(tournament,team_id,atype,view):
         return None
 
 def query_team_statistic_last_record_data_before_date(tournament,team_id,atype,view,before_date):
-    query_last_data = "SELECT * FROM `team_statistics` where tournament = %s and team_id = %s and type = %s and view = %s and date <= %s order by date desc limit 1"
+    if(atype == type_Summary):
+        query_last_data = "SELECT \
+        `rating`,\
+        `apps`,\
+        `goals`,\
+        `shots_pg`,\
+        `possession`,\
+        `pass`,\
+        `aerials_won`,\
+        FROM `team_statistics` where tournament = %s and team_id = %s and type = %s and view = %s and date <= %s order by date desc limit 1"
+    elif(atype == type_Offensive):
+        query_last_data = "SELECT \
+        `rating`,\
+        `apps`,\
+        `shots_pg`,\
+        `shots_ot_pg`,\
+        `dribbles_pg`,\
+        `fouled_pg`,\
+        FROM `team_statistics` where tournament = %s and team_id = %s and type = %s and view = %s and date <= %s order by date desc limit 1"
+    elif(atype == type_Defensive):
+        query_last_data = "SELECT \
+        `rating`,\
+        `apps`,\
+        `shots_conceded_pg`,\
+        `tackles_pg`,\
+        `interceptions_pg`,\
+        `fouls_pg`,\
+        `offsides_pg`,\
+        FROM `team_statistics` where tournament = %s and team_id = %s and type = %s and view = %s and date <= %s order by date desc limit 1"
+    else:
+        print("atype never be seen before.")
+        return
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
     cursor.execute(query_last_data,(tournament,team_id,atype,view,before_date))

@@ -27,9 +27,9 @@ def process_team_page(url,priority=fetch_url_repository.priority_Normal):
 		errors = []
 		
 		team_id = utils.find_team_id_from_teamurl(url)
-		print(team_id)
+# 		print(team_id)
 		team_name = browser.find_element_by_class_name('team-header-name').text
-		print(team_name)
+# 		print(team_name)
 		
 		if priority == fetch_url_repository.priority_Normal:
 			print("Record Team " + team_name +" fixtures")
