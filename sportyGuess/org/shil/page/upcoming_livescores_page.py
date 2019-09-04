@@ -13,9 +13,9 @@ try:
     browser.implicitly_wait(utils.browser_implicitly_wait)
     browser.get('https://www.whoscored.com/LiveScores');
     
-    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+    time.sleep(random.randrange(0,2))
     browser.find_element_by_id('qcCmpButtons').find_elements_by_tag_name('button')[1].click()
-    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+    time.sleep(2)
     
     livescores = browser.find_element_by_id('livescores')
     tbody = livescores.find_element_by_tag_name('tbody')
