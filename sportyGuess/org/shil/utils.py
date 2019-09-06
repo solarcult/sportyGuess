@@ -4,8 +4,8 @@ from datetime import timedelta
 
 browser_implicitly_wait = 45
 
-sleepMin = 2
-sleepMax = 5
+sleepMin = 1
+sleepMax = 3
 TeamMark = 'Teams/'
 PlayerMark = 'Players/'
 MatchMark = 'Matches/'

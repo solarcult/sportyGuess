@@ -45,6 +45,7 @@ def process_team_page(url,priority=fetch_url_repository.priority_Normal):
 		
 		print("Team Statistics " + team_name)
 		print("Summary - Overall")
+		summary_overall_is_fine = True
 		try:
 			ttss = browser.find_element_by_id('top-team-stats-summary')
 			trs = ttss.find_element_by_id("top-team-stats-summary-content")
@@ -78,254 +79,259 @@ def process_team_page(url,priority=fetch_url_repository.priority_Normal):
 			print(e)
 			errors.append("Summary - Overall:")
 			errors.append(str(e))
-			
-		print("Summary - Home")
-		try:
-			listbox = ttss.find_element_by_id('field')
-			dds = listbox.find_elements_by_tag_name('dd')
-			for dd in dds:
-				a = dd.find_element_by_tag_name('a')
-				if(a.text == team_statistics_repository.view_Home):
-					a.click()
-					break
+			summary_overall_is_fine = False
+			print("summary_overall_is_NOT_fine")
 		
-			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+		if(summary_overall_is_fine):
+			print("Summary - Home")
+			try:
+				listbox = ttss.find_element_by_id('field')
+				dds = listbox.find_elements_by_tag_name('dd')
+				for dd in dds:
+					a = dd.find_element_by_tag_name('a')
+					if(a.text == team_statistics_repository.view_Home):
+						a.click()
+						break
 			
-			ttss = browser.find_element_by_id('top-team-stats-summary')
-			trs = ttss.find_element_by_id("top-team-stats-summary-content")
-			elements = trs.find_elements_by_tag_name("tr")
-			for element in elements:
-				tournament = (element.find_elements_by_css_selector("td")[0].text)
-				apps = (element.find_elements_by_css_selector("td")[1].text)
-				goals = (element.find_elements_by_css_selector("td")[2].text)
-				shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
-		# 	    discipline = (element.find_elements_by_css_selector("td")[4].text)
-				possession = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
-				apass = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
-				aerials_won = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
-				rating = utils.getStr(element.find_elements_by_css_selector("td")[8].text)
+				time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 				
-				team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, goals, shots_pg, possession, apass, aerials_won)
-		except Exception as e:
-			print("Summary - Home is a error ")
-			print(e)
-			errors.append('Summary-Home:')
-			errors.append(str(e))
-			
-		print("Summary - Away")
-		try:
-			listbox = ttss.find_element_by_id('field')
-			dds = listbox.find_elements_by_tag_name('dd')
-			for dd in dds:
-				a = dd.find_element_by_tag_name('a')
-				if(a.text == team_statistics_repository.view_Away):
-					a.click()
-					break
-			
-			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
-			
-			ttss = browser.find_element_by_id('top-team-stats-summary')
-			trs = ttss.find_element_by_id("top-team-stats-summary-content")
-			elements = trs.find_elements_by_tag_name("tr")
-			for element in elements:
-				tournament = (element.find_elements_by_css_selector("td")[0].text)
-				apps = (element.find_elements_by_css_selector("td")[1].text)
-				goals = (element.find_elements_by_css_selector("td")[2].text)
-				shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
-		# 	    discipline = (element.find_elements_by_css_selector("td")[4].text)
-				possession = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
-				apass = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
-				aerials_won = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
-				rating = utils.getStr(element.find_elements_by_css_selector("td")[8].text)
+				ttss = browser.find_element_by_id('top-team-stats-summary')
+				trs = ttss.find_element_by_id("top-team-stats-summary-content")
+				elements = trs.find_elements_by_tag_name("tr")
+				for element in elements:
+					tournament = (element.find_elements_by_css_selector("td")[0].text)
+					apps = (element.find_elements_by_css_selector("td")[1].text)
+					goals = (element.find_elements_by_css_selector("td")[2].text)
+					shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
+			# 	    discipline = (element.find_elements_by_css_selector("td")[4].text)
+					possession = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
+					apass = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+					aerials_won = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
+					rating = utils.getStr(element.find_elements_by_css_selector("td")[8].text)
+					
+					team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, goals, shots_pg, possession, apass, aerials_won)
+			except Exception as e:
+				print("Summary - Home is a error ")
+				print(e)
+				errors.append('Summary-Home:')
+				errors.append(str(e))
 				
-				team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, goals, shots_pg, possession, apass, aerials_won)
-		except Exception as e:
-			print("Summary - Away is a error ")
-			print(e)
-			errors.append("Summary-Away:")
-			errors.append(str(e))
-			
-		print("Defensive - Overall")
-		try:
-			defensive = browser.find_element_by_link_text(team_statistics_repository.type_Defensive);
-			defensive.click()
-			
-			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
-			
-			ttss = browser.find_element_by_id('top-team-stats-defensive')
-			trs = ttss.find_element_by_id("top-team-stats-summary-content")
-			elements = trs.find_elements_by_tag_name("tr")
-			for element in elements:
-				tournament = (element.find_elements_by_css_selector("td")[0].text)
-				apps = (element.find_elements_by_css_selector("td")[1].text)
-				shots_conceded_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
-				tackles_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
-				interceptions_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
-				fouls_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
-				offsides_pg = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
-				rating = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
+			print("Summary - Away")
+			try:
+				listbox = ttss.find_element_by_id('field')
+				dds = listbox.find_elements_by_tag_name('dd')
+				for dd in dds:
+					a = dd.find_element_by_tag_name('a')
+					if(a.text == team_statistics_repository.view_Away):
+						a.click()
+						break
 				
-				team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
-		except Exception as e:
-			print("Defensive - Overall is a error.")
-			print(e)
-			errors.append('Defensive-Overall:')
-			errors.append(str(e))
-			
-		print("Defensive - Home")
-		try:
-			listbox = ttss.find_element_by_id('field')
-			dds = listbox.find_elements_by_tag_name('dd')
-			for dd in dds:
-				a = dd.find_element_by_tag_name('a')
-				if(a.text == team_statistics_repository.view_Home):
-					a.click()
-					break
-		
-			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
-			
-			ttss = browser.find_element_by_id('top-team-stats-defensive')
-			trs = ttss.find_element_by_id("top-team-stats-summary-content")
-			elements = trs.find_elements_by_tag_name("tr")
-			for element in elements:
-				tournament = (element.find_elements_by_css_selector("td")[0].text)
-				apps = (element.find_elements_by_css_selector("td")[1].text)
-				shots_conceded_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
-				tackles_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
-				interceptions_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
-				fouls_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
-				offsides_pg = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
-				rating = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
+				time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 				
-				team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
-		except Exception as e:
-			print("Defensive - Home is a error:")
-			print(e)
-			errors.append('Defensive-Home:')
-			errors.append(str(e))
-			
-		print("Defensive - Away")
-		try:
-			listbox = ttss.find_element_by_id('field')
-			dds = listbox.find_elements_by_tag_name('dd')
-			for dd in dds:
-				a = dd.find_element_by_tag_name('a')
-				if(a.text == team_statistics_repository.view_Away):
-					a.click()
-					break
-			
-			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
-		
-			ttss = browser.find_element_by_id('top-team-stats-defensive')
-			trs = ttss.find_element_by_id("top-team-stats-summary-content")
-			elements = trs.find_elements_by_tag_name("tr")
-			for element in elements:
-				tournament = (element.find_elements_by_css_selector("td")[0].text)
-				apps = (element.find_elements_by_css_selector("td")[1].text)
-				shots_conceded_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
-				tackles_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
-				interceptions_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
-				fouls_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
-				offsides_pg = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
-				rating = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
+				ttss = browser.find_element_by_id('top-team-stats-summary')
+				trs = ttss.find_element_by_id("top-team-stats-summary-content")
+				elements = trs.find_elements_by_tag_name("tr")
+				for element in elements:
+					tournament = (element.find_elements_by_css_selector("td")[0].text)
+					apps = (element.find_elements_by_css_selector("td")[1].text)
+					goals = (element.find_elements_by_css_selector("td")[2].text)
+					shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
+			# 	    discipline = (element.find_elements_by_css_selector("td")[4].text)
+					possession = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
+					apass = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+					aerials_won = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
+					rating = utils.getStr(element.find_elements_by_css_selector("td")[8].text)
+					
+					team_statistics_repository.insert_team_statistics_summary(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, goals, shots_pg, possession, apass, aerials_won)
+			except Exception as e:
+				print("Summary - Away is a error ")
+				print(e)
+				errors.append("Summary-Away:")
+				errors.append(str(e))
 				
-				team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
-		except Exception as e:
-			print("Defensive - Away is a error:")
-			print(e)
-			errors.append('Defensive-Away:')
-			errors.append(str(e))
-		
-		print("Offensive - Overall")
-		try:
-		
-			offensive = browser.find_element_by_link_text(team_statistics_repository.type_Offensive);
-			offensive.click()
-			
-			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
-			
-			ttss = browser.find_element_by_id('top-team-stats-offensive')
-			trs = ttss.find_element_by_id("top-team-stats-summary-content")
-			elements = trs.find_elements_by_tag_name("tr")
-			for element in elements:
-				tournament = (element.find_elements_by_css_selector("td")[0].text)
-				apps = (element.find_elements_by_css_selector("td")[1].text)
-				shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
-				shots_ot_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
-				dribbles_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
-				fouled_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
-				rating = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+			print("Defensive - Overall")
+			try:
+				defensive = browser.find_element_by_link_text(team_statistics_repository.type_Defensive);
+				defensive.click()
 				
-				team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
-		except Exception as e:
-			print("Offensive - Overall is a error ")
-			print(e)
-			errors.append('Offensive-Overall:')
-			errors.append(str(e))
-		
-		print("Offensive - Home")
-		
-		try:
-			listbox = ttss.find_element_by_id('field')
-			dds = listbox.find_elements_by_tag_name('dd')
-			for dd in dds:
-				a = dd.find_element_by_tag_name('a')
-				if(a.text == team_statistics_repository.view_Home):
-					a.click()
-					break
+				time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
 				
-			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
-			
-			ttss = browser.find_element_by_id('top-team-stats-offensive')
-			trs = ttss.find_element_by_id("top-team-stats-summary-content")
-			elements = trs.find_elements_by_tag_name("tr")
-			for element in elements:
-				tournament = (element.find_elements_by_css_selector("td")[0].text)
-				apps = (element.find_elements_by_css_selector("td")[1].text)
-				shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
-				shots_ot_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
-				dribbles_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
-				fouled_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
-				rating = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
-			
-				team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
-		except Exception as e:
-			print("Offensive - Home is a error.")
-			print(e)
-			errors.append('Offensive-Home:')
-			errors.append(str(e))
-		
-		print("Offensive - Away")
-		try:
-			listbox = ttss.find_element_by_id('field')
-			dds = listbox.find_elements_by_tag_name('dd')
-			for dd in dds:
-				a = dd.find_element_by_tag_name('a')
-				if(a.text == team_statistics_repository.view_Away):
-					a.click()
-					break
-			
-			time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
-		
-			ttss = browser.find_element_by_id('top-team-stats-offensive')
-			trs = ttss.find_element_by_id("top-team-stats-summary-content")
-			elements = trs.find_elements_by_tag_name("tr")
-			for element in elements:
-				tournament = (element.find_elements_by_css_selector("td")[0].text)
-				apps = (element.find_elements_by_css_selector("td")[1].text)
-				shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
-				shots_ot_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
-				dribbles_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
-				fouled_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
-				rating = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+				ttss = browser.find_element_by_id('top-team-stats-defensive')
+				trs = ttss.find_element_by_id("top-team-stats-summary-content")
+				elements = trs.find_elements_by_tag_name("tr")
+				for element in elements:
+					tournament = (element.find_elements_by_css_selector("td")[0].text)
+					apps = (element.find_elements_by_css_selector("td")[1].text)
+					shots_conceded_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
+					tackles_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
+					interceptions_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
+					fouls_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
+					offsides_pg = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+					rating = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
+					
+					team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
+			except Exception as e:
+				print("Defensive - Overall is a error.")
+				print(e)
+				errors.append('Defensive-Overall:')
+				errors.append(str(e))
 				
-				team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
-		except Exception as e:
-			print("Offensive - Away is a error.")
-			print(e)
-			errors.append('Offensive-Away:')
-			errors.append(str(e))
-	
+			print("Defensive - Home")
+			try:
+				listbox = ttss.find_element_by_id('field')
+				dds = listbox.find_elements_by_tag_name('dd')
+				for dd in dds:
+					a = dd.find_element_by_tag_name('a')
+					if(a.text == team_statistics_repository.view_Home):
+						a.click()
+						break
+			
+				time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+				
+				ttss = browser.find_element_by_id('top-team-stats-defensive')
+				trs = ttss.find_element_by_id("top-team-stats-summary-content")
+				elements = trs.find_elements_by_tag_name("tr")
+				for element in elements:
+					tournament = (element.find_elements_by_css_selector("td")[0].text)
+					apps = (element.find_elements_by_css_selector("td")[1].text)
+					shots_conceded_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
+					tackles_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
+					interceptions_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
+					fouls_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
+					offsides_pg = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+					rating = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
+					
+					team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
+			except Exception as e:
+				print("Defensive - Home is a error:")
+				print(e)
+				errors.append('Defensive-Home:')
+				errors.append(str(e))
+				
+			print("Defensive - Away")
+			try:
+				listbox = ttss.find_element_by_id('field')
+				dds = listbox.find_elements_by_tag_name('dd')
+				for dd in dds:
+					a = dd.find_element_by_tag_name('a')
+					if(a.text == team_statistics_repository.view_Away):
+						a.click()
+						break
+				
+				time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+			
+				ttss = browser.find_element_by_id('top-team-stats-defensive')
+				trs = ttss.find_element_by_id("top-team-stats-summary-content")
+				elements = trs.find_elements_by_tag_name("tr")
+				for element in elements:
+					tournament = (element.find_elements_by_css_selector("td")[0].text)
+					apps = (element.find_elements_by_css_selector("td")[1].text)
+					shots_conceded_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
+					tackles_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
+					interceptions_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
+					fouls_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
+					offsides_pg = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+					rating = utils.getStr(element.find_elements_by_css_selector("td")[7].text)
+					
+					team_statistics_repository.insert_team_statistics_defensive(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, shots_conceded_pg, tackles_pg, interceptions_pg, fouls_pg, offsides_pg)
+			except Exception as e:
+				print("Defensive - Away is a error:")
+				print(e)
+				errors.append('Defensive-Away:')
+				errors.append(str(e))
+			
+			print("Offensive - Overall")
+			try:
+			
+				offensive = browser.find_element_by_link_text(team_statistics_repository.type_Offensive);
+				offensive.click()
+				
+				time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+				
+				ttss = browser.find_element_by_id('top-team-stats-offensive')
+				trs = ttss.find_element_by_id("top-team-stats-summary-content")
+				elements = trs.find_elements_by_tag_name("tr")
+				for element in elements:
+					tournament = (element.find_elements_by_css_selector("td")[0].text)
+					apps = (element.find_elements_by_css_selector("td")[1].text)
+					shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
+					shots_ot_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
+					dribbles_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
+					fouled_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
+					rating = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+					
+					team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Overall, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
+			except Exception as e:
+				print("Offensive - Overall is a error ")
+				print(e)
+				errors.append('Offensive-Overall:')
+				errors.append(str(e))
+			
+			print("Offensive - Home")
+			
+			try:
+				listbox = ttss.find_element_by_id('field')
+				dds = listbox.find_elements_by_tag_name('dd')
+				for dd in dds:
+					a = dd.find_element_by_tag_name('a')
+					if(a.text == team_statistics_repository.view_Home):
+						a.click()
+						break
+					
+				time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+				
+				ttss = browser.find_element_by_id('top-team-stats-offensive')
+				trs = ttss.find_element_by_id("top-team-stats-summary-content")
+				elements = trs.find_elements_by_tag_name("tr")
+				for element in elements:
+					tournament = (element.find_elements_by_css_selector("td")[0].text)
+					apps = (element.find_elements_by_css_selector("td")[1].text)
+					shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
+					shots_ot_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
+					dribbles_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
+					fouled_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
+					rating = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+				
+					team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Home, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
+			except Exception as e:
+				print("Offensive - Home is a error.")
+				print(e)
+				errors.append('Offensive-Home:')
+				errors.append(str(e))
+			
+			print("Offensive - Away")
+			try:
+				listbox = ttss.find_element_by_id('field')
+				dds = listbox.find_elements_by_tag_name('dd')
+				for dd in dds:
+					a = dd.find_element_by_tag_name('a')
+					if(a.text == team_statistics_repository.view_Away):
+						a.click()
+						break
+				
+				time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+			
+				ttss = browser.find_element_by_id('top-team-stats-offensive')
+				trs = ttss.find_element_by_id("top-team-stats-summary-content")
+				elements = trs.find_elements_by_tag_name("tr")
+				for element in elements:
+					tournament = (element.find_elements_by_css_selector("td")[0].text)
+					apps = (element.find_elements_by_css_selector("td")[1].text)
+					shots_pg = utils.getStr(element.find_elements_by_css_selector("td")[2].text)
+					shots_ot_pg = utils.getStr(element.find_elements_by_css_selector("td")[3].text)
+					dribbles_pg = utils.getStr(element.find_elements_by_css_selector("td")[4].text)
+					fouled_pg = utils.getStr(element.find_elements_by_css_selector("td")[5].text)
+					rating = utils.getStr(element.find_elements_by_css_selector("td")[6].text)
+					
+					team_statistics_repository.insert_team_statistics_offensive(tournament, team_id, team_name, team_statistics_repository.view_Away, rating, apps, shots_pg, shots_ot_pg, dribbles_pg, fouled_pg)
+			except Exception as e:
+				print("Offensive - Away is a error.")
+				print(e)
+				errors.append('Offensive-Away:')
+				errors.append(str(e))
+		else:
+			print(" * ! summary_overall_is_NOT_fine !")
+			
 		print('Team Squad')
 		length = 0
 		try:
