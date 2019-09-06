@@ -13,9 +13,9 @@ try:
     browser.implicitly_wait(utils.browser_implicitly_wait)
     browser.get('https://www.whoscored.com/LiveScores');
     
-    time.sleep(random.randrange(0,2))
+    time.sleep(1)
     browser.find_element_by_id('qcCmpButtons').find_elements_by_tag_name('button')[1].click()
-    time.sleep(2)
+    time.sleep(1)
     
     livescores = browser.find_element_by_id('livescores')
     tbody = livescores.find_element_by_tag_name('tbody')
@@ -36,6 +36,12 @@ try:
             elif(id.find('i') != -1 ):
                 tds = tr.find_elements_by_tag_name('td')
                 try:
+                    home_team_link = tds[5].find_element_by_tag_name('a').get_attribute('href')
+                    team_links.append(home_team_link)
+                    
+                    away_team_link = tds[7].find_element_by_tag_name('a').get_attribute('href')
+                    team_links.append(away_team_link)
+                    
 #                     print(tds[9].text)
                     if len(tds[9].text) < 1:
                         print(tds[9].text)
@@ -51,12 +57,10 @@ try:
                     print('Found Exception here , Ignore .')
                     print(e)
                     continue
-                home_team_link = tds[5].find_element_by_tag_name('a').get_attribute('href')
-                team_links.append(home_team_link)
+                
                 match_id = utils.find_match_id_from_matchurl(tds[6].find_elements_by_tag_name('a')[0].get_attribute('href'))
                 match_ids.append(match_id)
-                away_team_link = tds[7].find_element_by_tag_name('a').get_attribute('href')
-                team_links.append(away_team_link)
+                
                 print('* Found the match:'+match_id)
             else:
                 print('NNNNNNNNNNNNNNNNNNNNNNNNNever come here!')
@@ -65,13 +69,14 @@ try:
         except Exception:
             print("tr, e , bye")
             pass
-        
 
-    print('start insert teams link:')
-    for team_link in team_links:
-        print(team_link)
-        if(fetch_url_repository.update_url_priority(team_link, fetch_url_repository.priority_High) < 0 ):
-            fetch_url_repository.insert_fetch_url(team_link, fetch_url_repository.type_TeamHome, team_link, fetch_url_repository.priority_High)
+    print('start insert matches :')
+    for match_id in match_ids:
+        print(match_id)
+        preview_match_url = 'https://www.whoscored.com/Matches/'+match_id+'/Preview'
+        if(fetch_url_repository.update_url_priority(preview_match_url, fetch_url_repository.priority_High) < 0 ):
+            fetch_url_repository.insert_fetch_url(preview_match_url, fetch_url_repository.type_MatchPreview, preview_match_url, fetch_url_repository.priority_High)
+
 
     print('start insert tournaments:')
     for key in tournament_maps.keys() :
@@ -80,12 +85,12 @@ try:
         if(fetch_url_repository.update_url_priority(tournament_maps[key], fetch_url_repository.priority_High) < 0 ):
             fetch_url_repository.insert_fetch_url(tournament_maps[key], fetch_url_repository.type_Tournament, params,fetch_url_repository.priority_High)
         
-    print('start insert matches :')
-    for match_id in match_ids:
-        print(match_id)
-        preview_match_url = 'https://www.whoscored.com/Matches/'+match_id+'/Preview'
-        if(fetch_url_repository.update_url_priority(preview_match_url, fetch_url_repository.priority_High) < 0 ):
-            fetch_url_repository.insert_fetch_url(preview_match_url, fetch_url_repository.type_MatchPreview, preview_match_url, fetch_url_repository.priority_High)
+    print('start insert teams link:')
+    for team_link in team_links:
+        print(team_link)
+        if(fetch_url_repository.update_url_priority(team_link, fetch_url_repository.priority_High) < 0 ):
+            fetch_url_repository.insert_fetch_url(team_link, fetch_url_repository.type_TeamHome, team_link, fetch_url_repository.priority_High)
+
 
 finally:
     browser.quit()

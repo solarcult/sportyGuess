@@ -22,6 +22,8 @@ try:
     url = 'https://www.whoscored.com/'
     browser.get(url)
     time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
+    browser.find_element_by_id('qcCmpButtons').find_elements_by_tag_name('button')[1].click()
+    time.sleep(random.randrange(utils.sleepMin,utils.sleepMax))
     
     touraments = {}
     
@@ -31,7 +33,7 @@ try:
         tourament_name = li.text
         print(tourament_name)
 #         过滤条件,非常重要,只取带有La的URL
-        if(tourament_name.find("La") == -1):
+        if(tourament_name.find("Serie") == -1):
             continue;
         link = li.find_element_by_tag_name('a').get_attribute('href')
         touraments[tourament_name] = link
