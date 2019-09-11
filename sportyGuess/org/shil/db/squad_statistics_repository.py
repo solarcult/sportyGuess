@@ -86,7 +86,7 @@ def list_team_squad_statistics_latest_sepcial_date(tournament,team_id,atype,view
         `shots_pg`,\
         `pass`,\
         `aerials_won`,\
-        `man_ot_match`,\
+        `man_ot_match` \
         FROM `squad_statistics` where tournament = %s and team_id = %s and type = %s and view = %s and sdate = %s order by rating desc"
     cnx = utils.get_mysql_connector()
     cursor = cnx.cursor()
