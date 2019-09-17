@@ -36,12 +36,6 @@ try:
             elif(id.find('i') != -1 ):
                 tds = tr.find_elements_by_tag_name('td')
                 try:
-                    home_team_link = tds[5].find_element_by_tag_name('a').get_attribute('href')
-                    team_links.append(home_team_link)
-                    
-                    away_team_link = tds[7].find_element_by_tag_name('a').get_attribute('href')
-                    team_links.append(away_team_link)
-                    
 #                     print(tds[9].text)
                     if len(tds[9].text) < 1:
                         print(tds[9].text)
@@ -51,17 +45,23 @@ try:
                     print(preview)
                     if(utils.getStr(preview).find('Preview') == -1
                        and utils.getStr(preview).find('Match') == -1 ):
+                        print('        not preview')
 #                         print('3. Not Found Preview or Match Report here , Ignore .')
-                        continue
+                    else:
+                        match_id = utils.find_match_id_from_matchurl(tds[6].find_elements_by_tag_name('a')[0].get_attribute('href'))
+                        match_ids.append(match_id)
+                        print('* Found the match:'+match_id)
+                    
+                    home_team_link = tds[5].find_element_by_tag_name('a').get_attribute('href')
+                    team_links.append(home_team_link)
+                    
+                    away_team_link = tds[7].find_element_by_tag_name('a').get_attribute('href')
+                    team_links.append(away_team_link)
+                    
                 except Exception as e:
                     print('Found Exception here , Ignore .')
                     print(e)
                     continue
-                
-                match_id = utils.find_match_id_from_matchurl(tds[6].find_elements_by_tag_name('a')[0].get_attribute('href'))
-                match_ids.append(match_id)
-                
-                print('* Found the match:'+match_id)
             else:
                 print('NNNNNNNNNNNNNNNNNNNNNNNNNever come here!')
                 break
