@@ -2,10 +2,10 @@ import MySQLdb
 from datetime import datetime
 from datetime import timedelta
 
-browser_implicitly_wait = 45
+browser_implicitly_wait = 60
 
-sleepMin = 1
-sleepMax = 3
+sleepMin = 2
+sleepMax = 5
 TeamMark = 'Teams/'
 PlayerMark = 'Players/'
 MatchMark = 'Matches/'

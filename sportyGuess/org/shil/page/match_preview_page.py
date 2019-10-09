@@ -32,14 +32,20 @@ def process_match_preview(url):
         mpe = match_preview_entity()
         errors=[]
         mpe.match_id = utils.find_match_id_from_matchurl(url)
-    
-        wsdate = browser.find_element_by_id('match-header').find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[1].find_elements_by_tag_name('div')[2].find_elements_by_tag_name('dd')[1].text
-#         print("here")
-#         print(wsdate+".")
-        sps = wsdate.split(',')
-#         print(len(sps))
-        sdate = wsdate.split(',')[1].strip()
-        mpe.date = datetime.strptime(sdate,'%d-%b-%y')
+        
+        try:
+            wsdate = browser.find_element_by_id('match-header').find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[1].find_elements_by_tag_name('div')[2].find_elements_by_tag_name('dd')[1].text
+    #         print("here")
+#             print(wsdate+".")
+#             sps = wsdate.split(',')
+#             print(len(sps))
+            sdate = wsdate.split(',')[1].strip()
+#             print(sdate)
+            mpe.date = datetime.strptime(sdate,'%d-%b-%y')
+        except Exception as e:
+            print(e)
+            print("date error but it's fine")
+            mpe.date = datetime.now()
         
         header = browser.find_element_by_class_name('pitch-formation-header')
         homet = header.find_element_by_class_name('home')
@@ -89,6 +95,7 @@ def process_match_preview(url):
         
         spans = stats[0].find_elements_by_tag_name('span')
         mpe.home_goals = spans[3].text
+#         print(mpe.home_goals)
     #     print(spans[4].text) # Goals
         mpe.away_goals = spans[5].text.split("(")[0].strip()
     
@@ -99,11 +106,13 @@ def process_match_preview(url):
     
         stats = stat_groups[1].find_elements_by_class_name('stat')
         spans = stats[0].find_elements_by_tag_name('span')
-#         print(spans[1].text)
+#         print("1:"+spans[1].text)
         mpe.home_average_ratings = spans[1].text.split(" ")[1]
-    #     print(spans[3].text) # Average Ratings
+#         print(mpe.home_average_ratings)
+#         print("3:"+spans[3].text) # Average Ratings
         mpe.away_average_ratings = spans[4].text.split(" ")[0]
-    
+#         print(mpe.away_average_ratings)
+#         print("4:"+spans[4].text)
         stats = stat_groups[2].find_elements_by_class_name('stat')
         spans = stats[0].find_elements_by_tag_name('span')
         mpe.home_shots_pg = spans[1].text.split(" ")[1]
@@ -172,8 +181,11 @@ def process_match_preview(url):
             print(e)
             errors.append('missing part no exist, ignore me please:')
             errors.append(str(e))
-        
-        match_preview_repository.insert_match_preview(mpe)
+        try:
+            match_preview_repository.insert_match_preview(mpe)
+        except Exception as me:
+            print(me)
+            
         fetch_url_repository.update_last_record_of_url_status(url, errors)
         
     finally:
@@ -188,3 +200,5 @@ def process_match_preview(url):
 # process_match_preview('https://www.whoscored.com/Matches/1316736/Preview')
 # process_match_preview('https://www.whoscored.com/Matches/1364706/Preview/Europe-UEFA-Europa-League-2018-2019-Chelsea-Dynamo-Kyiv')
 # process_match_preview('https://www.whoscored.com/Matches/1284991/Preview/England-Premier-League-2018-2019-Cardiff-West-Ham')
+# process_match_preview('https://www.whoscored.com/Matches/1362830/Preview')
+# process_match_preview('https://www.whoscored.com/Matches/1394185/Preview/Spain-LaLiga-2019-2020-Leganes-Athletic-Bilbao')
